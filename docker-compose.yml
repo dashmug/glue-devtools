@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  glue:
+    image: glue-pyspark-dev-tools:latest
+    container_name: glue-pyspark-dev-tools
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ~/.aws:/home/glue_user/.aws
+      - .:/home/glue_user/workspace
+    tty: true
+    environment:
+      - AWS_REGION=ap-southeast-2
+      - DISABLE_SSL=true
+      - AWS_PROFILE
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_SESSION_TOKEN
+    env_file:
+      - .env
+    ports:
+      - "4040:4040"
+      - "18080:18080"
+      - "8998:8998"
+      - "8888:8888"
+    command: /home/glue_user/workspace/start.sh

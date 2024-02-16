@@ -1,0 +1,102 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "glue-pyspark-dev-tools"
+repository = "https://github.com/dashmug/glue-pyspark-dev-tools"
+version = "0.1.0"
+description = "Glue PySpark Development Tools"
+authors = ["Noel Llevares <dashmug@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10,<3.11"
+ruff = "^0.2.1"
+mypy = "^1.8.0"
+pip-audit = "^2.7.1"
+pip = "^24.0"
+pytest-randomly = "^3.15.0"
+pytest-cov = "^4.1.0"
+pytest = "^8.0.1"
+
+[tool.poetry.group.runtime.dependencies]
+# It is best to keep the dependencies here in sync with what's on Glue's 
+# documentation 
+# https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html#glue-modules-provided
+aws-glue-libs = { git = "https://github.com/awslabs/aws-glue-libs.git", rev = "master" }
+pyspark = "3.3.0"
+
+[tool.ruff]
+line-length = 88
+output-format = "full"
+respect-gitignore = true
+target-version = "py37"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    # Line too long
+    "E501",
+    # pydocstyle
+    "D",
+    # Missing type annotation for `self` in method
+    "ANN101",
+    # To Do comments
+    "TD002",
+    "TD003",
+    "FIX002",
+    # Conflicts with ruff format
+    "COM812",
+    "ISC001",
+]
+exclude = ["snapshots", ".venv", ".ipynb_checkpoints"]
+# # Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 7
+
+[tool.ruff.lint.per-file-ignores]
+"test/**" = ["S101", "ANN", "PT", "PD"]
+
+[tool.mypy]
+files = "**/*.py"
+python_version = "3.10"
+show_error_codes = true
+pretty = true
+strict = true
+ignore_missing_imports = true
+implicit_reexport = true
+explicit_package_bases = true
+
+[[tool.mypy.overrides]]
+module = "test.*"
+disallow_incomplete_defs = false
+disallow_untyped_defs = false
+disallow_untyped_calls = false
+
+[tool.pytest.ini_options]
+addopts = "--cov=src --junitxml=test-results/results.xml --cov-report=xml --cov-branch --cov-report=term"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.coverage.run]
+omit = ["**/test_*.py"]
+
+[tool.coverage.report]
+skip_empty = true
+exclude_also = [
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.coverage.xml]
+output = "coverage/results.xml"
