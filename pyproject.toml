@@ -12,13 +12,13 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.10,<3.11"
-ruff = "^0.2.1"
 mypy = "^1.8.0"
 pip-audit = "^2.7.1"
 pip = "^24.0"
 pytest-randomly = "^3.15.0"
 pytest-cov = "^4.1.0"
 pytest = "^8.0.1"
+ruff = "^0.2.2"
 
 [tool.poetry.group.runtime.dependencies]
 # It is best to keep the dependencies here in sync with what's on Glue's 
