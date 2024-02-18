@@ -39,10 +39,15 @@ jobs:
         uses: Gr1N/setup-poetry@v8
 
       - name: Install Python Dependencies
-        run: make install
+        run: poetry install --no-root
 
       - name: Check poetry config
         run: poetry check
 
       - name: Lint Python code
-        run: make lint
+        run: |
+          poetry run ruff format . --check
+          poetry run ruff check .
+
+      - name: Check type annotations
+        run: poetry run mypy
