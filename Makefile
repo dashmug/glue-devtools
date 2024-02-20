@@ -1,8 +1,8 @@
 MAKEFLAGS += --no-print-directory
 
-COMPOSE_RUN = USER_ID=$$(id -u) GROUP_ID=$$(id -g) docker compose run glue
+COMPOSE_RUN = USER_ID=$$(id -u) docker compose run glue
 
-COMPOSE_EXEC = USER_ID=$$(id -u) GROUP_ID=$$(id -g) docker compose exec glue
+COMPOSE_EXEC = USER_ID=$$(id -u) docker compose exec glue
 
 
 .PHONY: help
@@ -132,7 +132,7 @@ endif
 .PHONY: clean-notebooks
 clean-notebooks: ## Removes output cells from Jupyter notebooks
 ifeq ($(PLATFORM), docker)
-	@jupyter nbconvert --clear-output notebooks/**.ipynb
+	@jupyter nbconvert --clear-output notebooks/**/*.ipynb
 else
 	@$(COMPOSE_RUN) -c "make clean-notebooks"
 endif

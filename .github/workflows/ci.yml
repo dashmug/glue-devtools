@@ -12,15 +12,10 @@ concurrency:
 
 jobs:
   python:
-    name: Python Checks
+    name: Python
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
-
-      - name: Check shell scripts
-        uses: ludeeus/action-shellcheck@2.0.0
-        with:
-          scandir: '.'
 
       - name: Setup Virtualenv Cache
         uses: actions/cache@v4.0.0
@@ -51,3 +46,25 @@ jobs:
 
       - name: Check type annotations
         run: poetry run mypy
+
+      - name: Check if requirements.txt is up-to-date
+        run: poetry export --output requirements.txt | git diff --exit-code 
+  shell:
+    name: Shell
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - name: Check shell scripts
+        uses: ludeeus/action-shellcheck@2.0.0
+        with:
+          scandir: '.'
+  dockerfile:
+    name: Dockerfile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - name: Validate Dockerfile using hadolint
+        uses: hadolint/hadolint-action@v3.1.0
+        
