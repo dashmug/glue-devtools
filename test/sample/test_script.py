@@ -1,3 +1,8 @@
+"""
+This script is taken from the AWS Glue documentation
+https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-libraries.html#develop-local-docker-image
+"""
+
 import sys
 
 import pytest

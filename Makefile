@@ -55,7 +55,7 @@ start: .env install requirements ## Rebuild the container according to the lates
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: `make start` is meant to be used outside the container." && false
 else
-	@docker compose up --build
+	@USER_ID=$$(id -u) docker compose up --build
 endif
 
 
@@ -132,7 +132,7 @@ endif
 .PHONY: clean-notebooks
 clean-notebooks: ## Removes output cells from Jupyter notebooks
 ifeq ($(PLATFORM), docker)
-	@jupyter nbconvert --clear-output notebooks/**/*.ipynb
+	@jupyter nbconvert --clear-output notebooks/**.ipynb
 else
 	@$(COMPOSE_RUN) -c "make clean-notebooks"
 endif

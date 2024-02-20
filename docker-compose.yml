@@ -7,6 +7,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - USER_ID=${USER_ID:-}
+        - GROUP_ID=${GROUP_ID:-}
     volumes:
       - ~/.aws:/home/glue_user/.aws
       - .:/home/glue_user/workspace
