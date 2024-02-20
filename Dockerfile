@@ -5,7 +5,7 @@ FROM amazon/aws-glue-libs:glue_libs_4.0.0_image_01
 ENV PLATFORM="docker"
 
 # Arguments for passing the host user:group to the container.
-ARG USER_ID
+ARG USER_ID=1000
 
 # Switch to root to be able to make changes in the container filesystem.
 USER root

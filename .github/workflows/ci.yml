@@ -16,7 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
-
       - name: Setup Virtualenv Cache
         uses: actions/cache@v4.0.0
         with:
@@ -24,37 +23,45 @@ jobs:
           key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
           restore-keys: |
             ${{ runner.os }}-poetry-
-
       - name: Set up Python 3.10
         uses: actions/setup-python@v5.0.0
         with:
           python-version: "3.10.13"
-
       - name: Setup Poetry
         uses: Gr1N/setup-poetry@v9
-
       - name: Install Python Dependencies
         run: poetry install --no-root
-
       - name: Check poetry config
         run: poetry check
-
       - name: Lint Python code
         run: |
           poetry run ruff format . --check
           poetry run ruff check .
-
       - name: Check type annotations
         run: poetry run mypy
-
       - name: Check if requirements.txt is up-to-date
         run: poetry export --output requirements.txt | git diff --exit-code 
+  Container:
+    name: Container
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - name: Run the checks inside Docker
+        uses: addnab/docker-run-action@v3
+        with:
+          image: amazon/aws-glue-libs:glue_libs_4.0.0_image_01
+          options: --volume ${{ github.workspace }}:/home/glue_user/workspace
+          run: |
+              pip3 install --user --upgrade pip==24.0
+              pip3 install --user -r requirements.txt
+              /home/glue_user/.local/bin/ruff format . --check --no-cache
+              /home/glue_user/.local/bin/ruff check . --no-cache
+              /home/glue_user/.local/bin/mypy
   shell:
     name: Shell
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
-
       - name: Check shell scripts
         uses: ludeeus/action-shellcheck@2.0.0
         with:
@@ -64,7 +71,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
-
       - name: Validate Dockerfile using hadolint
         uses: hadolint/hadolint-action@v3.1.0
         
