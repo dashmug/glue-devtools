@@ -1,14 +1,11 @@
-import sys
 from contextlib import ContextDecorator
 from types import TracebackType
 from typing import cast
 
 from awsglue.context import GlueContext
 from awsglue.job import Job
-from awsglue.utils import getResolvedOptions
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
-from typing_extensions import Self
 
 
 class ManagedGlueContext(ContextDecorator):
@@ -19,19 +16,6 @@ class ManagedGlueContext(ContextDecorator):
         self.options = options
 
         super().__init__()
-
-    @classmethod
-    def from_sys_argv(cls: type[Self], *params: str) -> Self:
-        options = getResolvedOptions(
-            sys.argv,
-            params,
-        )
-
-        return cls(options)
-
-    @classmethod
-    def from_options(cls: type[Self], **options: str) -> Self:
-        return cls(options)
 
     def __enter__(self) -> GlueContext:
         glue_context = self.create_glue_context(self.create_spark_session())
