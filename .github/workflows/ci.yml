@@ -30,7 +30,9 @@ jobs:
       - name: Setup Poetry
         uses: Gr1N/setup-poetry@v9
       - name: Install Python Dependencies
-        run: poetry install --no-root
+        run: |
+          poetry check --lock
+          poetry install --no-root
       - name: Check poetry config
         run: poetry check
       - name: Lint Python code
@@ -40,7 +42,10 @@ jobs:
       - name: Check type annotations
         run: poetry run mypy
       - name: Check if requirements.txt is up-to-date
-        run: poetry export --output requirements.txt | git diff --exit-code 
+        run: poetry export --output requirements.txt | git diff --exit-code
+      - name: Audit Python dependencies
+        run: poetry run pip-audit --requirement requirements.txt 
+        continue-on-error: true
   Container:
     name: Container
     runs-on: ubuntu-latest
@@ -52,11 +57,12 @@ jobs:
           image: amazon/aws-glue-libs:glue_libs_4.0.0_image_01
           options: --volume ${{ github.workspace }}:/home/glue_user/workspace
           run: |
-              pip3 install --user --upgrade pip==24.0
-              pip3 install --user -r requirements.txt
-              /home/glue_user/.local/bin/ruff format . --check --no-cache
-              /home/glue_user/.local/bin/ruff check . --no-cache
-              /home/glue_user/.local/bin/mypy
+            pip3 install --no-warn-script-location --user --upgrade pip==24.0 
+            pip3 install --no-warn-script-location --user -r requirements.txt
+            /home/glue_user/.local/bin/ruff format . --check --no-cache
+            /home/glue_user/.local/bin/ruff check . --no-cache
+            /home/glue_user/.local/bin/mypy
+            /home/glue_user/.local/bin/pytest -p no:cacheprovider
   shell:
     name: Shell
     runs-on: ubuntu-latest

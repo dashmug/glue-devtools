@@ -99,23 +99,6 @@ else
 endif
 
 
-.coverage:
-ifeq ($(PLATFORM), docker)
-	@pytest
-else
-	@$(COMPOSE_RUN) -c "make test"
-endif
-
-
-.PHONY: coverage
-coverage: .coverage ## Generate test coverage HTML report
-ifeq ($(PLATFORM), docker)
-	@coverage html
-else
-	@$(COMPOSE_RUN) -c "make coverage"
-endif
-
-
 .PHONY: checks
 checks: format typecheck
 
@@ -159,4 +142,4 @@ endif
 
 .PHONY: clean
 clean: ## Delete generated artifacts
-	@rm -rf coverage htmlcov test-results .coverage .mypy_cache .pytest_cache
+	@rm -rf .mypy_cache .pytest_cache .ruff_cache

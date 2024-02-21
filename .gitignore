@@ -1,12 +1,8 @@
 __pycache__
-.coverage*
 .env
 .ipynb_checkpoints
 .mypy_cache
 .pytest_cache
 .ruff_cache
 .venv
-coverage
-htmlcov
 mypy-results
-test-results
