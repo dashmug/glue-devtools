@@ -7,8 +7,11 @@ ManagedGlueContext class from glue_utils.
 """
 
 
+import sys
+
 from awsglue import DynamicFrame
 from awsglue.context import GlueContext
+from awsglue.utils import getResolvedOptions
 
 from glue_utils.context import ManagedGlueContext
 
@@ -22,7 +25,8 @@ def extract(glue_context: GlueContext, path: str) -> DynamicFrame:
 
 
 if __name__ == "__main__":
-    with ManagedGlueContext.from_sys_argv() as glue_context:
+    options = getResolvedOptions(sys.argv, [])
+    with ManagedGlueContext(options=options) as glue_context:
         dyf = extract(
             glue_context=glue_context,
             path="s3://awsglue-datasets/examples/us-legislators/all/persons.json",
