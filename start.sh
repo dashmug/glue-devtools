@@ -11,5 +11,5 @@ echo "SSL Disabled"
 jupyter lab --no-browser \
   --ip=0.0.0.0 \
   --ServerApp.root_dir=/home/glue_user/workspace/ \
-  --ServerApp.token='' \
+  --IdentityProvider.token='' \
   --ServerApp.password=''
