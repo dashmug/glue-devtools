@@ -12,8 +12,8 @@ class ManagedGlueContext(ContextDecorator):
     options: dict[str, str]
     job: Job
 
-    def __init__(self, options: dict[str, str]) -> None:
-        self.options = options
+    def __init__(self, options: dict[str, str] | None = None) -> None:
+        self.options = options or {}
 
         super().__init__()
 
