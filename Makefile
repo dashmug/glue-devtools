@@ -99,6 +99,16 @@ else
 endif
 
 
+.PHONY: coverage
+coverage: ## Generate test coverage HTML report
+ifeq ($(PLATFORM), docker)
+	@pytest --cov=src --cov=glue_utils --cov-branch --cov-report=term
+	@coverage html
+else
+	@$(COMPOSE_RUN) -c "make coverage"
+endif
+
+
 .PHONY: checks
 checks: format typecheck
 
