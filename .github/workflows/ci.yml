@@ -55,7 +55,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: amazon/aws-glue-libs:glue_libs_4.0.0_image_01
-          options: --volume ${{ github.workspace }}:/home/glue_user/workspace
+          options: --volume ${{ github.workspace }}:/home/glue_user/workspace --env AWS_REGION=us-east-1
           run: |
             pip3 install --no-warn-script-location --user --upgrade pip==24.0 
             pip3 install --no-warn-script-location --user -r requirements.txt

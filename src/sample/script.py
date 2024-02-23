@@ -26,7 +26,7 @@ def extract(glue_context: GlueContext, path: str) -> DynamicFrame:
 
 if __name__ == "__main__":
     options = getResolvedOptions(sys.argv, [])
-    with ManagedGlueContext(options=options) as glue_context:
+    with ManagedGlueContext(job_options=options) as glue_context:
         dyf = extract(
             glue_context=glue_context,
             path="s3://awsglue-datasets/examples/us-legislators/all/persons.json",

@@ -4,26 +4,50 @@ from typing import cast
 
 from awsglue.context import GlueContext
 from awsglue.job import Job
-from pyspark import SparkConf
-from pyspark.sql import SparkSession
+from pyspark import SparkConf, SparkContext
 
 
 class ManagedGlueContext(ContextDecorator):
-    options: dict[str, str]
+    job_options: dict[str, str]
+    spark_conf: SparkConf | None
     job: Job
 
-    def __init__(self, options: dict[str, str] | None = None) -> None:
-        self.options = options or {}
+    def __init__(
+        self,
+        *,
+        job_options: dict[str, str] | None = None,
+        spark_conf: SparkConf | None = None,
+    ) -> None:
+        """Creates a context manager that wraps a GlueContext and
+        ensures that Job.commit() is called.
+
+        Parameters
+        ----------
+        init_options, optional
+            Dictionary of key-value pairs to pass to Job.init().
+            Defaults to None.
+        conf, optional
+            Custom SparkConf to use with SparkContext.getOrCreate().
+            Defaults to None.
+        """
+        self.job_options = job_options or {}
+        self.spark_conf = spark_conf
 
         super().__init__()
 
     def __enter__(self) -> GlueContext:
-        glue_context = self.create_glue_context(self.create_spark_session())
+        job_name = self.job_options.get("JOB_NAME", "")
 
-        self.job = Job(glue_context)
-        self.job.init(self.options.get("JOB_NAME", ""), self.options)
+        conf = self.spark_conf or SparkConf()
+        conf = conf.setAppName(job_name)
 
-        return glue_context
+        spark_context = SparkContext.getOrCreate(conf)
+        self.glue_context = GlueContext(spark_context)
+
+        self.job = Job(self.glue_context)
+        self.job.init(job_name, self.job_options)
+
+        return self.glue_context
 
     def __exit__(
         self,
@@ -34,18 +58,3 @@ class ManagedGlueContext(ContextDecorator):
         self.job.commit()
 
         return cast(bool, False)  # noqa: FBT003
-
-    def create_spark_conf(self) -> SparkConf:
-        return SparkConf()
-
-    def create_spark_session(self) -> SparkSession:
-        conf = self.create_spark_conf()
-
-        return (
-            SparkSession.builder.appName(name=self.options.get("JOB_NAME", ""))
-            .config(conf=conf)
-            .getOrCreate()
-        )
-
-    def create_glue_context(self, spark_session: SparkSession) -> GlueContext:
-        return GlueContext(spark_session)
