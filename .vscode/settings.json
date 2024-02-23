@@ -19,5 +19,6 @@
   "python.analysis.diagnosticSeverityOverrides": {
     "reportGeneralTypeIssues": "warning"
   },
-  "python.testing.pytestEnabled": true
+  "python.testing.pytestEnabled": true,
+  "autoDocstring.docstringFormat": "numpy-notypes",
 }
