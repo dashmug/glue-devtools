@@ -8,44 +8,44 @@ from pyspark import SparkConf, SparkContext
 
 
 class ManagedGlueContext(ContextDecorator):
-    job_options: dict[str, str]
-    spark_conf: SparkConf | None
+    options: dict[str, str]
+    conf: SparkConf | None
     job: Job
 
     def __init__(
         self,
         *,
-        job_options: dict[str, str] | None = None,
-        spark_conf: SparkConf | None = None,
+        options: dict[str, str] | None = None,
+        conf: SparkConf | None = None,
     ) -> None:
         """Creates a context manager that wraps a GlueContext and
         ensures that Job.commit() is called.
 
         Parameters
         ----------
-        init_options, optional
+        options, optional
             Dictionary of key-value pairs to pass to Job.init().
             Defaults to None.
         conf, optional
             Custom SparkConf to use with SparkContext.getOrCreate().
             Defaults to None.
         """
-        self.job_options = job_options or {}
-        self.spark_conf = spark_conf
+        self.options = options or {}
+        self.conf = conf
 
         super().__init__()
 
     def __enter__(self) -> GlueContext:
-        job_name = self.job_options.get("JOB_NAME", "")
+        job_name = self.options.get("JOB_NAME", "")
 
-        conf = self.spark_conf or SparkConf()
+        conf = self.conf or SparkConf()
         conf = conf.setAppName(job_name)
 
         spark_context = SparkContext.getOrCreate(conf)
         self.glue_context = GlueContext(spark_context)
 
         self.job = Job(self.glue_context)
-        self.job.init(job_name, self.job_options)
+        self.job.init(job_name, self.options)
 
         return self.glue_context
 
