@@ -6,7 +6,6 @@ The code has been simplified to demonstrate how to use the
 ManagedGlueContext class from glue_utils.
 """
 
-
 import sys
 
 from awsglue import DynamicFrame
