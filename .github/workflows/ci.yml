@@ -42,7 +42,7 @@ jobs:
       - name: Check type annotations
         run: poetry run mypy
       - name: Check if requirements.txt is up-to-date
-        run: poetry export --output requirements.txt | git diff --exit-code
+        run: poetry export --output requirements.txt && git diff --exit-code
       - name: Audit Python dependencies
         run: poetry run pip-audit --requirement requirements.txt 
         continue-on-error: true
