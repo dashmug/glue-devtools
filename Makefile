@@ -102,7 +102,7 @@ endif
 .PHONY: coverage
 coverage: ## Generate test coverage HTML report
 ifeq ($(PLATFORM), docker)
-	@pytest --cov=src --cov=glue_utils --cov-branch --cov-report=term
+	@pytest --cov=jobs --cov=glue_utils --cov-branch --cov-report=term
 	@coverage html
 else
 	@$(COMPOSE_RUN) -c "make coverage"
@@ -152,4 +152,4 @@ endif
 
 .PHONY: clean
 clean: ## Delete generated artifacts
-	@rm -rf .mypy_cache .pytest_cache .ruff_cache
+	@rm -rf __pycache__ .coverage .mypy_cache .pytest_cache .ruff_cache htmlcov

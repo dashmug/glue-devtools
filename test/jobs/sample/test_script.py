@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 import pytest
 
-from src.sample import script
+from jobs.sample import script
 
 
 @pytest.fixture

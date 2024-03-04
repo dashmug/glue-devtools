@@ -5,7 +5,8 @@
     "**/.ipynb_checkpoints": true,
     "**/.mypy_cache": true,
     "**/.pytest_cache": true,
-    "**/.ruff_cache": true
+    "**/.ruff_cache": true,
+    "**/.Trash-*": true,
   },
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff",
