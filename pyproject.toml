@@ -18,7 +18,7 @@ pip = "^24.0"
 pytest-randomly = "^3.15.0"
 ruff = "^0.2.2"
 pytest-cov = "^4.1.0"
-pytest = "^8.0.2"
+pytest = "^8.1.0"
 
 [tool.poetry.group.runtime.dependencies]
 # The "runtime" dependency group refers to dependencies that already 
