@@ -112,6 +112,33 @@ endif
 checks: format typecheck
 
 
+.PHONY: synth
+synth: ## Synthesizes and prints the CloudFormation template
+ifeq ($(PLATFORM), docker)
+	@echo "ERROR: `make synth` is meant to be used outside the container." && false
+else
+	@poetry run cdk synth --strict
+endif
+
+
+.PHONY: diff
+diff: ## Compares the specified stack with the deployed stack
+ifeq ($(PLATFORM), docker)
+	@echo "ERROR: `make diff` is meant to be used outside the container." && false
+else
+	@poetry run cdk diff --strict
+endif
+
+
+.PHONY: deploy
+deploy: ## Deploy the infrastructure and the application
+ifeq ($(PLATFORM), docker)
+	@echo "ERROR: `make deploy` is meant to be used outside the container." && false
+else
+	@poetry run cdk deploy --strict
+endif
+
+
 .PHONY: shell
 shell: ## Start a bash shell session inside the container
 ifeq ($(PLATFORM), docker)
@@ -151,4 +178,4 @@ endif
 
 .PHONY: clean
 clean: ## Delete generated artifacts
-	@rm -rf __pycache__ .coverage .mypy_cache .pytest_cache .ruff_cache htmlcov
+	@rm -rf cdk.out __pycache__ .coverage .mypy_cache .pytest_cache .ruff_cache htmlcov

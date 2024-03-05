@@ -34,11 +34,16 @@ mypy = "^1.9.0"
 ruff = "^0.3.2"
 pytest = "^8.1.1"
 
+[tool.poetry.group.deploy.dependencies]
+constructs = "^10.3.0"
+aws-cdk-lib = "^2.132.1"
+
 [tool.ruff]
 line-length = 88
 output-format = "full"
 respect-gitignore = true
 target-version = "py310"
+exclude = ["snapshots", ".venv", ".ipynb_checkpoints"]
 
 [tool.ruff.lint]
 select = ["ALL"]
@@ -57,15 +62,14 @@ ignore = [
     "COM812",
     "ISC001",
 ]
-exclude = ["snapshots", ".venv", ".ipynb_checkpoints"]
-# # Allow unused variables when underscore-prefixed.
+# Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 [tool.ruff.lint.mccabe]
 max-complexity = 7
 
 [tool.ruff.lint.per-file-ignores]
-"test/**" = ["S101", "ANN", "PT", "PD"]
+"**/test_*" = ["S101", "ANN", "PT", "PD"]
 
 [tool.mypy]
 files = "**/*.py"
@@ -78,12 +82,15 @@ implicit_reexport = true
 explicit_package_bases = true
 
 [[tool.mypy.overrides]]
-module = "test.*"
+module = "*.tests.*"
 disallow_incomplete_defs = false
 disallow_untyped_defs = false
 disallow_untyped_calls = false
 
 [tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
 filterwarnings = [
     "ignore::DeprecationWarning", 
     "ignore::FutureWarning:.*pyspark.*",

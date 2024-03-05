@@ -95,6 +95,9 @@ lint                 Check source code for common errors
 typecheck            Check type annotations
 test                 Run automated tests
 coverage             Generate test coverage HTML report
+synth                Synthesizes and prints the CloudFormation template
+diff                 Compares the specified stack with the deployed stack
+deploy               Deploy the infrastructure and the application
 shell                Start a bash shell session inside the container
 clean-notebooks      Removes output cells from Jupyter notebooks
 pyspark              Start a Spark shell session

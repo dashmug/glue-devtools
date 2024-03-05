@@ -1,4 +1,5 @@
 __pycache__
+.cdk.staging
 .coverage*
 .env
 .ipynb_checkpoints
@@ -7,6 +8,7 @@ __pycache__
 .ruff_cache
 .Trash-*
 .venv
+cdk.out
 coverage
 htmlcov
 mypy-results
