@@ -27,10 +27,10 @@ USER glue_user
 
 # Copy requirements file that contains tooling.
 WORKDIR /home/glue_user/workspace
-COPY requirements.txt .
+COPY requirements.container.txt .
 
-RUN pip3 install --no-cache-dir --user --upgrade pip==24.0 \
+RUN pip3 install --no-cache-dir --no-warn-script-location --user --upgrade pip==24.0 \
   # Install dev requirements.
-  && pip3 install --no-cache-dir --user -r requirements.txt  \
+  && pip3 install --no-cache-dir --no-warn-script-location --user -r requirements.container.txt  \
   # Prepare a /tmp directory needed by Spark to start.
   && mkdir -p /tmp/spark-events

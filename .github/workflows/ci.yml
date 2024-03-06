@@ -42,9 +42,9 @@ jobs:
       - name: Check type annotations
         run: poetry run mypy
       - name: Check if requirements.txt is up-to-date
-        run: poetry export --output requirements.txt && git diff --exit-code
+        run: poetry export --with=dev --output requirements.txt && git diff --exit-code
       - name: Audit Python dependencies
-        run: poetry run pip-audit --requirement requirements.txt 
+        run: poetry run pip-audit --requirement requirements.container.txt 
         continue-on-error: true
   Container:
     name: Container
@@ -58,7 +58,7 @@ jobs:
           options: --volume ${{ github.workspace }}:/home/glue_user/workspace --env AWS_REGION=us-east-1
           run: |
             pip3 install --no-warn-script-location --user --upgrade pip==24.0 
-            pip3 install --no-warn-script-location --user -r requirements.txt
+            pip3 install --no-warn-script-location --user -r requirements.container.txt
             /home/glue_user/.local/bin/ruff format . --check --no-cache
             /home/glue_user/.local/bin/ruff check . --no-cache
             /home/glue_user/.local/bin/mypy

@@ -41,17 +41,16 @@ else
 endif
 
 
-.PHONY: requirements
-requirements: poetry.lock ## Export the latest poetry dev dependencies to requirements.txt
+requirements.container.txt: poetry.lock
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: Please run the same command outside the container." && false
 else
-	@poetry export --output requirements.txt
+	@poetry export --with=dev --output requirements.container.txt
 endif
 
 
 .PHONY: start
-start: .env install requirements ## Rebuild the container according to the latest requirements.txt & Start the JupyterLab container
+start: .env install requirements.container.txt ## Rebuild and start the development container
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: `make start` is meant to be used outside the container." && false
 else
@@ -102,7 +101,7 @@ endif
 .PHONY: coverage
 coverage: ## Generate test coverage HTML report
 ifeq ($(PLATFORM), docker)
-	@pytest --cov=jobs --cov=glue_utils --cov-branch --cov-report=term
+	@pytest --cov=jobs --cov-branch --cov-report=term
 	@coverage html
 else
 	@$(COMPOSE_RUN) -c "make coverage"
@@ -143,10 +142,10 @@ endif
 .PHONY: audit
 audit: ## Audit dependencies for security issues
 ifeq ($(PLATFORM), docker)
-	@pip-audit --requirement requirements.txt
+	@pip-audit --requirement requirements.container.txt
 else
 	@poetry check --lock
-	@poetry run pip-audit --requirement requirements.txt
+	@poetry run pip-audit --requirement requirements.container.txt
 endif
 
 
