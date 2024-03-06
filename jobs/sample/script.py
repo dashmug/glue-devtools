@@ -11,7 +11,6 @@ import sys
 from awsglue import DynamicFrame
 from awsglue.context import GlueContext
 from awsglue.utils import getResolvedOptions
-
 from glue_utils.context import ManagedGlueContext
 
 

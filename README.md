@@ -75,7 +75,7 @@ defining your Glue script.
 ```shell
 $ poetry add {{library name}}
 # To update the requirements.txt
-$ make requirements 
+$ make requirements.container.txt 
 # To rebuild the docker container for local testing purposes
 $ make start 
 ```
@@ -89,8 +89,7 @@ Available commands:
 help                 Show help (default)
 install              Create virtualenv and install dependencies
 outdated             Check for outdated dependencies
-requirements         Export the latest poetry dev dependencies to requirements.txt
-start                Rebuild the container according to the latest requirements.txt & Start the JupyterLab container
+start                Rebuild and start the development container
 format               Format project source code
 lint                 Check source code for common errors
 typecheck            Check type annotations
