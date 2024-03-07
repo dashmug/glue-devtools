@@ -33,21 +33,28 @@ jobs:
         run: |
           poetry check --lock
           poetry install --no-root
-      - name: Check poetry config
-        run: poetry check
-      - name: Lint Python code
+      - name: Lint Python code using ruff
         run: |
           poetry run ruff format . --check
           poetry run ruff check .
-      - name: Check type annotations
+      - name: Check type annotations using mypy
         run: poetry run mypy
       - name: Check if requirements.txt is up-to-date
         run: poetry export --with=dev --output requirements.txt && git diff --exit-code
       - name: Audit Python dependencies
         run: poetry run pip-audit --requirement requirements.container.txt 
         continue-on-error: true
-  Container:
-    name: Container
+  pip-audit:
+    name: Audit requirements
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - name: Audit requirements using pip-audit
+        uses: pypa/gh-action-pip-audit@v1.0.8
+        with:
+          inputs: requirements.container.txt
+  tests:
+    name: Run unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
@@ -59,16 +66,13 @@ jobs:
           run: |
             pip3 install --no-warn-script-location --user --upgrade pip==24.0 
             pip3 install --no-warn-script-location --user -r requirements.container.txt
-            /home/glue_user/.local/bin/ruff format . --check --no-cache
-            /home/glue_user/.local/bin/ruff check . --no-cache
-            /home/glue_user/.local/bin/mypy
             /home/glue_user/.local/bin/pytest -p no:cacheprovider
   shell:
     name: Shell
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
-      - name: Check shell scripts
+      - name: Check shell scripts using shellcheck
         uses: ludeeus/action-shellcheck@2.0.0
         with:
           scandir: '.'

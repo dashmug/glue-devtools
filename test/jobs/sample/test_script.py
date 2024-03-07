@@ -1,16 +1,9 @@
 from unittest.mock import patch
 
-import pytest
-
 from jobs.sample import script
 
 
-@pytest.fixture
-def mock_glue_context():
-    with patch("glue_utils.context.GlueContext") as mock_glue_context:
-        return mock_glue_context
-
-
+@patch("glue_utils.context.GlueContext")
 def test_extract(mock_glue_context):
     expected_count = 1961
     mock_glue_context.create_dynamic_frame_from_options.return_value.toDF.return_value.count.return_value = expected_count
