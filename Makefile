@@ -1,8 +1,8 @@
 MAKEFLAGS += --no-print-directory
 
-COMPOSE_RUN = USER_ID=$$(id -u) docker compose run glue
+COMPOSE_RUN = USER_ID=$$(id -u) docker compose run --rm --remove-orphans --build glue
 
-COMPOSE_EXEC = USER_ID=$$(id -u) docker compose exec glue
+COMPOSE_EXEC = USER_ID=$$(id -u) docker compose exec --build glue
 
 
 .PHONY: help
@@ -28,7 +28,7 @@ install: clean .env ## Create virtualenv and install dependencies
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: `make install` is meant to be used outside the container." && false
 else
-	@poetry install --no-root
+	@poetry install
 endif
 
 
@@ -54,7 +54,7 @@ start: .env install requirements.container.txt ## Rebuild and start the developm
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: `make start` is meant to be used outside the container." && false
 else
-	@USER_ID=$$(id -u) docker compose up --build
+	@USER_ID=$$(id -u) docker compose up --build --remove-orphans
 endif
 
 
