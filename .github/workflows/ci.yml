@@ -39,8 +39,8 @@ jobs:
           poetry run ruff check .
       - name: Check type annotations using mypy
         run: poetry run mypy
-      - name: Check if requirements.txt is up-to-date
-        run: poetry export --with=dev --output requirements.txt && git diff --exit-code
+      - name: Check if requirements.container.txt is up-to-date
+        run: poetry export --with=dev --output requirements.container.txt && git diff --exit-code
       - name: Audit Python dependencies
         run: poetry run pip-audit --requirement requirements.container.txt 
         continue-on-error: true
