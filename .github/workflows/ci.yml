@@ -41,9 +41,6 @@ jobs:
         run: poetry run mypy
       - name: Check if requirements.container.txt is up-to-date
         run: poetry export --with=dev --output requirements.container.txt && git diff --exit-code
-      - name: Audit Python dependencies
-        run: poetry run pip-audit --requirement requirements.container.txt 
-        continue-on-error: true
   pip-audit:
     name: Audit requirements
     runs-on: ubuntu-latest
@@ -66,7 +63,7 @@ jobs:
           run: |
             pip3 install --no-warn-script-location --user --upgrade pip==24.0 
             pip3 install --no-warn-script-location --user -r requirements.container.txt
-            /home/glue_user/.local/bin/pytest -p no:cacheprovider
+            python3 -m pytest -p no:cacheprovider
   shell:
     name: Shell
     runs-on: ubuntu-latest

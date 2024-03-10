@@ -2,7 +2,7 @@ MAKEFLAGS += --no-print-directory
 
 COMPOSE_RUN = USER_ID=$$(id -u) docker compose run --rm --remove-orphans --build glue
 
-COMPOSE_EXEC = USER_ID=$$(id -u) docker compose exec --build glue
+COMPOSE_EXEC = USER_ID=$$(id -u) docker compose exec glue
 
 
 .PHONY: help
@@ -90,19 +90,19 @@ endif
 
 
 .PHONY: test
-test: ## Run automated tests
+test: requirements.container.txt ## Run automated tests
 ifeq ($(PLATFORM), docker)
-	@pytest
+	@python3 -m pytest
 else
 	@$(COMPOSE_RUN) -c "make test"
 endif
 
 
 .PHONY: coverage
-coverage: ## Generate test coverage HTML report
+coverage: requirements.container.txt ## Generate test coverage HTML report
 ifeq ($(PLATFORM), docker)
-	@pytest --cov=jobs --cov-branch --cov-report=term
-	@coverage html
+	@python3 -m pytest --cov=jobs --cov-branch --cov-report=term
+	@python3 -m coverage html
 else
 	@$(COMPOSE_RUN) -c "make coverage"
 endif
