@@ -31,9 +31,9 @@ pyspark = "3.3.0"
 pytest-randomly = "^3.15.0"
 pytest-cov = "^4.1.0"
 pip-audit = "^2.7.2"
-pytest = "^8.0.2"
 mypy = "^1.9.0"
 ruff = "^0.3.2"
+pytest = "^8.1.1"
 
 [tool.ruff]
 line-length = 88
