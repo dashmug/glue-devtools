@@ -22,11 +22,15 @@ def extract(glue_context: GlueContext, path: str) -> DynamicFrame:
     )
 
 
-if __name__ == "__main__":
+def run() -> None:
     options = getResolvedOptions(sys.argv, [])
-    with ManagedGlueContext(options=options) as glue_context:
+    with ManagedGlueContext(job_options=options) as glue_context:
         dynamicframe = extract(
             glue_context=glue_context,
             path="s3://awsglue-datasets/examples/us-legislators/all/persons.json",
         )
         dynamicframe.printSchema()
+
+
+if __name__ == "__main__":
+    run()

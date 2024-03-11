@@ -300,13 +300,13 @@ typing = ["typing-extensions (>=4.8)"]
 
 [[package]]
 name = "glue-utils"
-version = "0.1.1"
+version = "0.1.2"
 description = "Reusable utilities for working with Glue PySpark jobs"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "glue_utils-0.1.1-py3-none-any.whl", hash = "sha256:ae76b9f98c9d3d76bd1616bb7636f004f13855f51264929353d136c2ff7b5db3"},
-    {file = "glue_utils-0.1.1.tar.gz", hash = "sha256:0bac170c586676c7a1493d7504749390309ee81291e0c5d5ee6e2ed93d364663"},
+    {file = "glue_utils-0.1.2-py3-none-any.whl", hash = "sha256:d8383fb50bed5855922a973dbe47afe135ac28e574dff9cdadab1b78c3873147"},
+    {file = "glue_utils-0.1.2.tar.gz", hash = "sha256:1c7d3e537ac0a4c40ddc2b72e3138e0e03ec4d46020e5678776d9ba35b79d51e"},
 ]
 
 [[package]]
@@ -548,13 +548,13 @@ test = ["pytest"]
 
 [[package]]
 name = "packaging"
-version = "23.2"
+version = "24.0"
 description = "Core utilities for Python packages"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "packaging-23.2-py3-none-any.whl", hash = "sha256:8c491190033a9af7e1d931d0b5dacc2ef47509b34dd0de67ed209b5203fc88c7"},
-    {file = "packaging-23.2.tar.gz", hash = "sha256:048fb0e9405036518eaaf48a55953c750c11e1a1b68e0dd1a9d62ed0c092cfc5"},
+    {file = "packaging-24.0-py3-none-any.whl", hash = "sha256:2ddfb553fdf02fb784c234c7ba6ccc288296ceabec964ad2eae3777778130bc5"},
+    {file = "packaging-24.0.tar.gz", hash = "sha256:eb82c5e3e56209074766e6885bb04b8c38a0c015d0a30036ebe7ece34c9989e9"},
 ]
 
 [[package]]
@@ -922,4 +922,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10,<3.11"
-content-hash = "0e995b0bc2be606be865b8ee24ffe500b2f34034ad2535e26e9500cf60f21120"
+content-hash = "7927ef4b09978588167c547c339f7baf954a06f8c4712398fb7a2af263af12c9"
