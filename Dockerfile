@@ -10,14 +10,9 @@ ARG USER_ID=1000
 # Switch to root to be able to make changes in the container filesystem.
 USER root
 
-# Install latest version of awscli.
-RUN yum remove awscli -y \
-  && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
-  && unzip awscliv2.zip \
-  && ./aws/install \
-  # Change UID of glue_user to be the same as host user. This allows
-  # JupyterLab to write to the host system as glue_user.
-  && usermod -u $USER_ID glue_user \
+# Change UID of glue_user to be the same as host user. This allows
+# JupyterLab to write to the host system as glue_user.
+RUN usermod -u $USER_ID glue_user \
   # Clean up /tmp which may already have glue_user-owned files with the
   # old UID.
   && rm -rf /tmp/*
