@@ -14,7 +14,6 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.10,<3.11"
 pip = "^24.0"
-glue-utils = "^0.1.2"
 
 [tool.poetry.group.runtime.dependencies]
 # The "runtime" dependency group refers to dependencies that already 

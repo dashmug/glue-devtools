@@ -166,9 +166,6 @@ exceptiongroup==1.2.0 ; python_version >= "3.10" and python_version < "3.11" \
 filelock==3.13.1 ; python_version >= "3.10" and python_version < "3.11" \
     --hash=sha256:521f5f56c50f8426f5e03ad3b281b490a87ef15bc6c526f168290f0c7148d44e \
     --hash=sha256:57dbda9b35157b05fb3e58ee91448612eb674172fab98ee235ccb0b5bee19a1c
-glue-utils==0.1.2 ; python_version >= "3.10" and python_version < "3.11" \
-    --hash=sha256:1c7d3e537ac0a4c40ddc2b72e3138e0e03ec4d46020e5678776d9ba35b79d51e \
-    --hash=sha256:d8383fb50bed5855922a973dbe47afe135ac28e574dff9cdadab1b78c3873147
 html5lib==1.1 ; python_version >= "3.10" and python_version < "3.11" \
     --hash=sha256:0d78f8fde1c230e99fe37986a60526d7049ed4bf8a9fadbad5f00e22e58e041d \
     --hash=sha256:b2e5b40261e20f354d198eae92afc10d750afb487ed5e50f9c4eaf07c184146f
