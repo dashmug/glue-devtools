@@ -25,7 +25,7 @@ def extract(glue_context: GlueContext, path: str) -> DynamicFrame:
 
 def run() -> None:
     options = getResolvedOptions(sys.argv, [])
-    job_name = options.get("JOB_NAME", "test")
+    job_name = options.get("JOB_NAME", "sample_script_job")
 
     spark_conf = SparkConf().setAppName(job_name)
     glue_context = GlueContext(SparkContext.getOrCreate(spark_conf))
