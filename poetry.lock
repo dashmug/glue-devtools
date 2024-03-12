@@ -299,17 +299,6 @@ testing = ["covdefaults (>=2.3)", "coverage (>=7.3.2)", "diff-cover (>=8)", "pyt
 typing = ["typing-extensions (>=4.8)"]
 
 [[package]]
-name = "glue-utils"
-version = "0.1.2"
-description = "Reusable utilities for working with Glue PySpark jobs"
-optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "glue_utils-0.1.2-py3-none-any.whl", hash = "sha256:d8383fb50bed5855922a973dbe47afe135ac28e574dff9cdadab1b78c3873147"},
-    {file = "glue_utils-0.1.2.tar.gz", hash = "sha256:1c7d3e537ac0a4c40ddc2b72e3138e0e03ec4d46020e5678776d9ba35b79d51e"},
-]
-
-[[package]]
 name = "html5lib"
 version = "1.1"
 description = "HTML parser based on the WHATWG HTML specification"
@@ -922,4 +911,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10,<3.11"
-content-hash = "7927ef4b09978588167c547c339f7baf954a06f8c4712398fb7a2af263af12c9"
+content-hash = "e689caf368bbd3c6369a4da185868c19d665bd1d41f6da151b0eb970694f3fd3"

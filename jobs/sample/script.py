@@ -10,8 +10,9 @@ import sys
 
 from awsglue import DynamicFrame
 from awsglue.context import GlueContext
+from awsglue.job import Job
 from awsglue.utils import getResolvedOptions
-from glue_utils.context import ManagedGlueContext
+from pyspark import SparkConf, SparkContext
 
 
 def extract(glue_context: GlueContext, path: str) -> DynamicFrame:
@@ -24,12 +25,21 @@ def extract(glue_context: GlueContext, path: str) -> DynamicFrame:
 
 def run() -> None:
     options = getResolvedOptions(sys.argv, [])
-    with ManagedGlueContext(job_options=options) as glue_context:
-        dynamicframe = extract(
-            glue_context=glue_context,
-            path="s3://awsglue-datasets/examples/us-legislators/all/persons.json",
-        )
-        dynamicframe.printSchema()
+    job_name = options.get("JOB_NAME", "sample_script_job")
+
+    spark_conf = SparkConf().setAppName(job_name)
+    glue_context = GlueContext(SparkContext.getOrCreate(spark_conf))
+
+    job = Job(glue_context)
+    job.init(job_name, options)
+
+    dynamicframe = extract(
+        glue_context=glue_context,
+        path="s3://awsglue-datasets/examples/us-legislators/all/persons.json",
+    )
+    dynamicframe.printSchema()
+
+    job.commit()
 
 
 if __name__ == "__main__":
