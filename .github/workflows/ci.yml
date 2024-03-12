@@ -41,6 +41,14 @@ jobs:
         run: poetry run mypy
       - name: Check if requirements.container.txt is up-to-date
         run: poetry export --with=dev --output requirements.container.txt && git diff --exit-code
+      - name: Set up NodeJS
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: "20"
+      - name: Install NodeJS Dependencies
+        run: npm install -g aws-cdk
+      - name: Synthesize CDK deployment package
+        run: poetry run cdk synth --strict
   pip-audit:
     name: Audit requirements
     runs-on: ubuntu-latest

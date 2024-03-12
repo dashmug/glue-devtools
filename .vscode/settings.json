@@ -16,7 +16,7 @@
     }
   },
   "python.defaultInterpreterPath": "./.venv/bin/python",
-  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.typeCheckingMode": "off",
   "python.analysis.diagnosticSeverityOverrides": {
     "reportGeneralTypeIssues": "warning"
   },
