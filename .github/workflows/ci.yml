@@ -33,6 +33,8 @@ jobs:
         run: |
           poetry check --lock
           poetry install --no-root
+      - name: Check for import violations
+        run: poetry run lint-imports
       - name: Lint Python code using ruff
         run: |
           poetry run ruff format . --check
