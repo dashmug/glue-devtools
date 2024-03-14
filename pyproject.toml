@@ -33,9 +33,9 @@ pip-audit = "^2.7.2"
 mypy = "^1.9.0"
 ruff = "^0.3.2"
 pytest = "^8.1.1"
+import-linter = "^2.0"
 
 [tool.poetry.group.deploy.dependencies]
-constructs = "^10.3.0"
 aws-cdk-lib = "^2.132.1"
 
 [tool.ruff]
@@ -88,11 +88,9 @@ disallow_untyped_defs = false
 disallow_untyped_calls = false
 
 [tool.pytest.ini_options]
-addopts = [
-    "--import-mode=importlib",
-]
+addopts = ["--import-mode=importlib"]
 filterwarnings = [
-    "ignore::DeprecationWarning", 
+    "ignore::DeprecationWarning",
     "ignore::FutureWarning:.*pyspark.*",
 ]
 
@@ -113,3 +111,18 @@ exclude_also = [
     "class .*\\bProtocol\\):",
     "@(abc\\.)?abstractmethod",
 ]
+
+[tool.importlinter]
+root_packages = ["infrastructure", "jobs"]
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "Jobs and Infrastructure code should not import from each other"
+type = "independence"
+modules = ["jobs", "infrastructure"]
+
+[[tool.importlinter.contracts]]
+name = "Glue Job scripts should not use AWS CDK package"
+type = "forbidden"
+source_modules = ["jobs"]
+forbidden_modules = ["aws_cdk"]

@@ -2,11 +2,14 @@
   "files.exclude": {
     ".idea": true,
     "**/__pycache__": true,
+    "**/.import_linter_cache": true,
     "**/.ipynb_checkpoints": true,
     "**/.mypy_cache": true,
     "**/.pytest_cache": true,
     "**/.ruff_cache": true,
     "**/.Trash-*": true,
+    "**/.venv": true,
+    "**/cdk.out": true,
   },
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff",

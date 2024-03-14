@@ -77,6 +77,7 @@ ifeq ($(PLATFORM), docker)
 else
 	@poetry run ruff format . --check
 	@poetry run ruff check .
+	@poetry run lint-imports
 endif
 
 
