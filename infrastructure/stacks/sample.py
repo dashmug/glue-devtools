@@ -1,13 +1,14 @@
 from typing import Any
 
-import aws_cdk as cdk
 from aws_cdk import aws_glue as glue
 from aws_cdk import aws_iam as iam
 from aws_cdk import aws_s3_assets as s3_assets
 from constructs import Construct
 
+from infrastructure.constructs.base import BaseStack
 
-class SampleStack(cdk.Stack):
+
+class SampleStack(BaseStack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs: Any) -> None:  # noqa: ANN401
         super().__init__(scope, construct_id, **kwargs)
 

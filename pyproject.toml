@@ -129,3 +129,8 @@ name = "Glue Job scripts should not use AWS CDK package"
 type = "forbidden"
 source_modules = ["jobs"]
 forbidden_modules = ["aws_cdk"]
+
+[[tool.importlinter.contracts]]
+name = "Infrastructure code should follow layers architecture"
+type = "layers"
+layers = ["infrastructure.stacks", "infrastructure.constructs"]
