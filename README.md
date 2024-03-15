@@ -80,6 +80,18 @@ $ make requirements.container.txt
 $ make start
 ```
 
+## Installing Git Hooks
+
+This project includes git hooks that will execute several checks when
+making commits. This gives us feedback during development on checks
+that would otherwise fail in CI.
+
+To install them,
+
+    make githooks
+
+After installation, it will do an initial run to check all files.
+
 ## List of Makefile commands
 
 ```
@@ -95,6 +107,7 @@ lint                 Check source code for common errors
 typecheck            Check type annotations
 test                 Run automated tests
 coverage             Generate test coverage HTML report
+githooks             Install project git hooks
 synth                Synthesizes and prints the CloudFormation template
 diff                 Compares the specified stack with the deployed stack
 deploy               Deploy the infrastructure and the application
