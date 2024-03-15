@@ -116,7 +116,7 @@ checks: format typecheck
 .PHONY: githooks
 githooks: ## Install project git hooks
 	@poetry run pre-commit install
-	@poetry run --all-files
+	@poetry run pre-commit run --all-files
 
 
 .PHONY: synth

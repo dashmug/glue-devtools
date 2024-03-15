@@ -36,8 +36,10 @@ pytest = "^8.1.1"
 pre-commit = "^3.6.2"
 import-linter = "^2.0"
 
+
 [tool.poetry.group.deploy.dependencies]
-aws-cdk-lib = "^2.132.1"
+aws-cdk-lib = "^2.133.0"
+cdk-nag = "^2.28.65"
 
 [tool.ruff]
 line-length = 88
