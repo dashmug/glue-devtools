@@ -16,12 +16,12 @@ python = "^3.10,<3.11"
 pip = "^24.0"
 
 [tool.poetry.group.runtime.dependencies]
-# The "runtime" dependency group refers to dependencies that already 
+# The "runtime" dependency group refers to dependencies that already
 # exist in AWS Glue's runtime. We don't need to install these in the
 # container.
-# 
-# It is best to keep the dependencies here in sync with what's on Glue's 
-# documentation. 
+#
+# It is best to keep the dependencies here in sync with what's on Glue's
+# documentation.
 # https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html#glue-modules-provided
 aws-glue-libs = { git = "https://github.com/awslabs/aws-glue-libs.git", rev = "master" }
 pyspark = "3.3.0"
@@ -33,6 +33,7 @@ pip-audit = "^2.7.2"
 mypy = "^1.9.0"
 ruff = "^0.3.2"
 pytest = "^8.1.1"
+pre-commit = "^3.6.2"
 import-linter = "^2.0"
 
 [tool.poetry.group.deploy.dependencies]
