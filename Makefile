@@ -113,6 +113,12 @@ endif
 checks: format typecheck
 
 
+.PHONY: githooks
+githooks: ## Install project git hooks
+	@poetry run pre-commit install
+	@poetry run --all-files
+
+
 .PHONY: synth
 synth: ## Synthesizes and prints the CloudFormation template
 ifeq ($(PLATFORM), docker)
