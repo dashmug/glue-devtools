@@ -9,7 +9,7 @@
     "**/.ruff_cache": true,
     "**/.Trash-*": true,
     "**/.venv": true,
-    "**/cdk.out": true,
+    "**/cdk.out": true
   },
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff",
@@ -24,5 +24,5 @@
     "reportGeneralTypeIssues": "warning"
   },
   "python.testing.pytestEnabled": true,
-  "autoDocstring.docstringFormat": "numpy-notypes",
+  "autoDocstring.docstringFormat": "numpy-notypes"
 }

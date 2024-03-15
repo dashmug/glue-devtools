@@ -2,6 +2,7 @@ __pycache__
 .cdk.staging
 .coverage*
 .env
+.import_linter_cache
 .ipynb_checkpoints
 .mypy_cache
 .pytest_cache
