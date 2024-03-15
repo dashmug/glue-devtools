@@ -14,24 +14,22 @@ repos:
         name: Lint Python code
         language: system
         types: [python]
-        entry: ruff check
+        entry: poetry run ruff check
         args: [--fix, --unsafe-fixes]
       - id: format-python
         name: Format Python code
         language: system
         types: [python]
-        entry: ruff format
+        entry: poetry run ruff format
       - id: typecheck-python
         name: Check Python type annotations
         language: system
         types: [python]
-        entry: mypy
-        pass_filenames: false
-        require_serial: true
+        entry: poetry run mypy
       - id: import-linter
         name: Check for violations of import rules
-        entry: lint-imports
-        language: python
+        entry: poetry run lint-imports
+        language: system
         types: [python]
         pass_filenames: false
       - id: update-requirements
