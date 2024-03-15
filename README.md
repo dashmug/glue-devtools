@@ -12,10 +12,10 @@ Make sure you have the following available from your shell (terminal):
 
 If they are missing, you can `brew install` them.
 
-Once the requirements above are ready, you create the poetry environment 
+Once the requirements above are ready, you create the poetry environment
 and install the project dependencies. To do that,
 
-    $ make install
+    make install
 
 ## Starting the container
 
@@ -23,7 +23,7 @@ We use the container to emulate Glue's runtime environment.
 
 To start the container,
 
-    $ make start
+    make start
 
 This will start the container and run JupyterLab. If the
 container is not built yet, it will build first before starting.
@@ -33,18 +33,18 @@ time. But succeeding builds will take a lot less.
 
 To start a bash shell from inside this running container, you can do
 
-    $ make shell
+    make shell
 
 ## Using JupyterLab
 
 Once the container has successfully started, point your browser to
-http://127.0.0.1:8888/lab.
+<http://127.0.0.1:8888/lab>.
 
 ## Running a PySpark shell
 
 To run a PySpark shell,
 
-    $ make pyspark
+    make pyspark
 
 ## Developing Glue/PySpark scripts using Jupyter Notebook
 
@@ -60,12 +60,12 @@ runtime.
 If the desired version of the library is already included, we only need
 it to our local environment.
 
-    $ poetry add --group=runtime {{library name}}=={{exact version}}
+    poetry add --group=runtime {{library name}}=={{exact version}}
 
 If you need to add a new runtime library, you need to add it in our local
 environment,
 
-    $ poetry add --group=runtime {{library name}}
+    poetry add --group=runtime {{library name}}
 
 and make sure to use the `--additional-python-modules` option when
 defining your Glue script.
@@ -75,9 +75,9 @@ defining your Glue script.
 ```shell
 $ poetry add {{library name}}
 # To update the requirements.container.txt file
-$ make requirements.container.txt 
+$ make requirements.container.txt
 # To rebuild the docker container for local testing purposes
-$ make start 
+$ make start
 ```
 
 ## List of Makefile commands
