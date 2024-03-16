@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, cast
 
 from aws_cdk import aws_glue as glue
 from aws_cdk import aws_iam as iam
@@ -15,7 +15,7 @@ class SampleStack(BaseStack):
         role = iam.Role(
             self,
             "Role",
-            assumed_by=iam.ServicePrincipal("glue.amazonaws.com"),
+            assumed_by=cast(iam.IPrincipal, iam.ServicePrincipal("glue.amazonaws.com")),
             managed_policies=[
                 iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3FullAccess"),
                 iam.ManagedPolicy.from_aws_managed_policy_name(
@@ -30,7 +30,6 @@ class SampleStack(BaseStack):
         security_config = glue.CfnSecurityConfiguration(
             self,
             "SecurityConfig",
-            name="security-configuration",
             encryption_configuration=glue.CfnSecurityConfiguration.EncryptionConfigurationProperty(
                 s3_encryptions=[
                     glue.CfnSecurityConfiguration.S3EncryptionProperty(
@@ -38,6 +37,7 @@ class SampleStack(BaseStack):
                     )
                 ],
             ),
+            name=f"{construct_id}-security-configuration",
         )
 
         script = s3_assets.Asset(self, "Script", path="jobs/sample/script.py")
@@ -45,7 +45,7 @@ class SampleStack(BaseStack):
         glue.CfnJob(
             self,
             "SampleJob",
-            name="sample-job",
+            name=f"{construct_id}-sample-job",
             role=role.role_arn,
             command=glue.CfnJob.JobCommandProperty(
                 name="glueetl",
