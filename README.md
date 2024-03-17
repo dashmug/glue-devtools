@@ -1,7 +1,9 @@
-# Glue PySpark Dev Tools
+# Glue DevTools
+
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 
 This sub-project provides the boilerplate and tooling to help in
-developing AWS Glue ETL Jobs in PySpark.
+developing AWS Glue ETL Jobs.
 
 ## Setup
 
@@ -74,8 +76,8 @@ defining your Glue script.
 
 ```shell
 $ poetry add {{library name}}
-# To update the requirements.container.txt file
-$ make requirements.container.txt
+# To update the requirements/requirements.container.txt file
+$ make requirements/requirements.container.txt
 # To rebuild the docker container for local testing purposes
 $ make start
 ```

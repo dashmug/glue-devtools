@@ -40,7 +40,7 @@ class SampleStack(BaseStack):
             name=f"{construct_id}-security-configuration",
         )
 
-        script = s3_assets.Asset(self, "Script", path="jobs/sample/script.py")
+        script = s3_assets.Asset(self, "Script", path="glueetl/sample/script.py")
 
         glue.CfnJob(
             self,

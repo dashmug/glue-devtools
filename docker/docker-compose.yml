@@ -2,16 +2,15 @@ version: "3.8"
 
 services:
   glue:
-    image: glue-pyspark-dev-tools:latest
-    container_name: glue-pyspark-dev-tools
+    container_name: glue-devtools
     build:
-      context: .
+      context: ..
       dockerfile: Dockerfile
       args:
         - USER_ID=${USER_ID:-}
     volumes:
       - ~/.aws:/home/glue_user/.aws
-      - .:/home/glue_user/workspace
+      - ..:/home/glue_user/workspace
     environment:
       - AWS_REGION=ap-southeast-2
       - DISABLE_SSL=true
@@ -26,4 +25,4 @@ services:
       - "18080:18080"
       - "8998:8998"
       - "8888:8888"
-    command: /home/glue_user/workspace/start.sh
+    command: /home/glue_user/workspace/docker/jupyter-start.sh

@@ -1,12 +1,12 @@
 MAKEFLAGS += --no-print-directory
 
-COMPOSE_RUN = USER_ID=$$(id -u) docker compose run --rm --remove-orphans --build glue
+COMPOSE_RUN = USER_ID=$$(id -u) docker compose -f docker/docker-compose.yml run --rm --remove-orphans --build glue
 
-COMPOSE_EXEC = USER_ID=$$(id -u) docker compose exec glue
+COMPOSE_EXEC = USER_ID=$$(id -u) docker compose -f docker/docker-compose.yml exec glue
 
 
-.PHONY: help
-help: ## Show help (default)
+.PHONY: all
+all: ## Show help (default)
 	@echo "=== Glue PySpark Dev Tools ==="
 	@echo
 	@echo "Available commands:"
@@ -14,9 +14,9 @@ help: ## Show help (default)
 		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 
-.env:
-	@cp -n .env.sample .env
-	@echo "Created .env file."
+docker/.env:
+	@cp -n docker/.env.sample docker/.env
+	@echo "Created docker/.env file."
 
 
 poetry.lock:
@@ -24,7 +24,7 @@ poetry.lock:
 
 
 .PHONY: install
-install: clean .env ## Create virtualenv and install dependencies
+install: clean docker/.env ## Create virtualenv and install dependencies
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: `make install` is meant to be used outside the container." && false
 else
@@ -41,20 +41,20 @@ else
 endif
 
 
-requirements.container.txt: poetry.lock
+requirements/requirements.container.txt: poetry.lock
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: Please run the same command outside the container." && false
 else
-	@poetry export --with=dev --output requirements.container.txt
+	@poetry export --with=dev --output requirements/requirements.container.txt
 endif
 
 
 .PHONY: start
-start: .env install requirements.container.txt ## Rebuild and start the development container
+start: docker/.env install requirements/requirements.container.txt ## Rebuild and start the development container
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: `make start` is meant to be used outside the container." && false
 else
-	@USER_ID=$$(id -u) docker compose up --build --remove-orphans
+	@USER_ID=$$(id -u) docker compose -f docker/docker-compose.yml up --build --remove-orphans
 endif
 
 
@@ -91,7 +91,7 @@ endif
 
 
 .PHONY: test
-test: requirements.container.txt ## Run automated tests
+test: requirements/requirements.container.txt ## Run automated tests
 ifeq ($(PLATFORM), docker)
 	@python3 -m pytest
 else
@@ -100,9 +100,9 @@ endif
 
 
 .PHONY: coverage
-coverage: requirements.container.txt ## Generate test coverage HTML report
+coverage: requirements/requirements.container.txt ## Generate test coverage HTML report
 ifeq ($(PLATFORM), docker)
-	@python3 -m pytest --cov=jobs --cov-branch --cov-report=term
+	@python3 -m pytest --cov=glueetl --cov-branch --cov-report=term
 	@python3 -m coverage html
 else
 	@$(COMPOSE_RUN) -c "make coverage"
@@ -176,10 +176,10 @@ endif
 .PHONY: audit
 audit: ## Audit dependencies for security issues
 ifeq ($(PLATFORM), docker)
-	@pip-audit --requirement requirements.container.txt
+	@pip-audit --requirement requirements/requirements.container.txt
 else
 	@poetry check --lock
-	@poetry run pip-audit --requirement requirements.container.txt
+	@poetry run pip-audit --requirement requirements/requirements.container.txt
 endif
 
 

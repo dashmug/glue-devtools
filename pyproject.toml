@@ -3,11 +3,11 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "glue-pyspark-dev-tools"
-repository = "https://github.com/dashmug/glue-pyspark-dev-tools"
+name = "glue-devtools"
+repository = "https://github.com/dashmug/glue-devtools"
 version = "0.1.0"
 package-mode = false
-description = "Glue PySpark Development Tools"
+description = "Glue Development Tools"
 authors = ["Noel Llevares <dashmug@gmail.com>"]
 license = "MIT"
 
@@ -15,14 +15,14 @@ license = "MIT"
 python = "^3.10,<3.11"
 pip = "^24.0"
 
-[tool.poetry.group.runtime.dependencies]
-# The "runtime" dependency group refers to dependencies that already
+# This "runtime" dependency group refers to dependencies that already
 # exist in AWS Glue's runtime. We don't need to install these in the
 # container.
 #
 # It is best to keep the dependencies here in sync with what's on Glue's
 # documentation.
 # https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html#glue-modules-provided
+[tool.poetry.group.runtime.dependencies]
 aws-glue-libs = { git = "https://github.com/awslabs/aws-glue-libs.git", rev = "master" }
 pyspark = "3.3.0"
 
@@ -35,7 +35,6 @@ pytest = "^8.1.1"
 pre-commit = "^3.6.2"
 import-linter = "^2.0"
 ruff = "^0.3.3"
-
 
 [tool.poetry.group.deploy.dependencies]
 aws-cdk-lib = "^2.133.0"
@@ -116,18 +115,18 @@ exclude_also = [
 ]
 
 [tool.importlinter]
-root_packages = ["infrastructure", "jobs"]
+root_packages = ["infrastructure", "glueetl"]
 include_external_packages = true
 
 [[tool.importlinter.contracts]]
 name = "Jobs and Infrastructure code should not import from each other"
 type = "independence"
-modules = ["jobs", "infrastructure"]
+modules = ["glueetl", "infrastructure"]
 
 [[tool.importlinter.contracts]]
 name = "Glue Job scripts should not use AWS CDK package"
 type = "forbidden"
-source_modules = ["jobs"]
+source_modules = ["glueetl"]
 forbidden_modules = ["aws_cdk"]
 
 [[tool.importlinter.contracts]]

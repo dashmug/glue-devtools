@@ -1,9 +1,9 @@
 from unittest.mock import patch
 
-from jobs.sample import script
+from glueetl.sample import script
 
 
-@patch("jobs.sample.script.GlueContext")
+@patch("glueetl.sample.script.GlueContext")
 def test_read_json(mock_glue_context):
     expected_count = 1961
     mock_glue_context.create_dynamic_frame_from_options.return_value.toDF.return_value.count.return_value = expected_count
@@ -20,7 +20,7 @@ def test_read_json(mock_glue_context):
     )
 
 
-@patch("jobs.sample.script.GlueContext")
+@patch("glueetl.sample.script.GlueContext")
 def test_run(mock_glue_context):
     script.GluePythonSample().run()
 

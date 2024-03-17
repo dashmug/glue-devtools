@@ -41,8 +41,8 @@ jobs:
           poetry run ruff check .
       - name: Check type annotations using mypy
         run: poetry run mypy
-      - name: Check if requirements.container.txt is up-to-date
-        run: poetry export --with=dev --output requirements.container.txt && git diff --exit-code
+      - name: Check if requirements are up-to-date
+        run: poetry export --with=dev --output requirements/requirements.container.txt && git diff --exit-code
       - name: Set up NodeJS
         uses: actions/setup-node@v4.0.2
         with:
@@ -59,7 +59,7 @@ jobs:
       - name: Audit requirements using pip-audit
         uses: pypa/gh-action-pip-audit@v1.0.8
         with:
-          inputs: requirements.container.txt
+          inputs: requirements/requirements.container.txt
   tests:
     name: Run unit tests
     runs-on: ubuntu-latest
@@ -72,7 +72,7 @@ jobs:
           options: --volume ${{ github.workspace }}:/home/glue_user/workspace --env AWS_REGION=us-east-1
           run: |
             pip3 install --no-warn-script-location --user --upgrade pip==24.0
-            pip3 install --no-warn-script-location --user -r requirements.container.txt
+            pip3 install --no-warn-script-location --user -r requirements/requirements.container.txt
             python3 -m pytest -p no:cacheprovider
   shell:
     name: Shell
