@@ -15,14 +15,7 @@ jobs:
     name: Python
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.1
-      - name: Setup Virtualenv Cache
-        uses: actions/cache@v4.0.1
-        with:
-          path: .venv
-          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-poetry-
+      - uses: actions/checkout@v4.1.2
       - name: Set up Python 3.10
         uses: actions/setup-python@v5.0.0
         with:
@@ -32,7 +25,7 @@ jobs:
       - name: Install Python Dependencies
         run: |
           poetry check --lock
-          poetry install --no-root
+          poetry install
       - name: Check for import violations
         run: poetry run lint-imports
       - name: Lint Python code using ruff
@@ -51,20 +44,11 @@ jobs:
         run: npm install -g aws-cdk
       - name: Synthesize CDK deployment package
         run: poetry run cdk synth --strict
-  pip-audit:
-    name: Audit requirements
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4.1.1
-      - name: Audit requirements using pip-audit
-        uses: pypa/gh-action-pip-audit@v1.0.8
-        with:
-          inputs: requirements/requirements.container.txt
   tests:
     name: Run unit tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.2
       - name: Run the checks inside Docker
         uses: addnab/docker-run-action@v3
         with:
@@ -74,11 +58,20 @@ jobs:
             pip3 install --no-warn-script-location --user --upgrade pip==24.0
             pip3 install --no-warn-script-location --user -r requirements/requirements.container.txt
             python3 -m pytest -p no:cacheprovider
+  pip-audit:
+    name: Audit requirements
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.2
+      - name: Audit requirements using pip-audit
+        uses: pypa/gh-action-pip-audit@v1.0.8
+        with:
+          inputs: requirements/requirements.container.txt
   shell:
     name: Shell
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.2
       - name: Check shell scripts using shellcheck
         uses: ludeeus/action-shellcheck@2.0.0
         with:
@@ -87,6 +80,13 @@ jobs:
     name: Dockerfile
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.2
       - name: Validate Dockerfile using hadolint
         uses: hadolint/hadolint-action@v3.1.0
+  makefile:
+    name: Makefile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.2
+      - name: Check Makefile using checkmake
+        uses: Uno-Takashi/checkmake-action@v2

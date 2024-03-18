@@ -115,7 +115,7 @@ checks: format typecheck
 
 .PHONY: githooks
 githooks: ## Install project git hooks
-	@poetry run pre-commit install
+	@poetry run pre-commit install --install-hooks
 	@poetry run pre-commit run --all-files
 
 
@@ -124,7 +124,7 @@ synth: ## Synthesizes and prints the CloudFormation template
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: `make synth` is meant to be used outside the container." && false
 else
-	@poetry run cdk synth --strict
+	@cdk synth --strict
 endif
 
 
@@ -133,7 +133,7 @@ diff: ## Compares the specified stack with the deployed stack
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: `make diff` is meant to be used outside the container." && false
 else
-	@poetry run cdk diff --strict
+	@cdk diff --strict
 endif
 
 
@@ -142,7 +142,7 @@ deploy: ## Deploy the infrastructure and the application
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: `make deploy` is meant to be used outside the container." && false
 else
-	@poetry run cdk deploy --strict
+	@cdk deploy --strict
 endif
 
 
