@@ -2,60 +2,6 @@
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.coverage.report]
-skip_empty = true
-exclude_also = [
-  "def __repr__",
-  "if self.debug:",
-  "if settings.DEBUG",
-  "raise AssertionError",
-  "raise NotImplementedError",
-  "if 0:",
-  "if __name__ == .__main__.:",
-  "if TYPE_CHECKING:",
-  "class .*\\bProtocol\\):",
-  "@(abc\\.)?abstractmethod"
-]
-
-[tool.coverage.run]
-omit = ["**/test_*.py"]
-
-[tool.importlinter]
-root_packages = ["infrastructure", "glueetl"]
-include_external_packages = true
-
-[[tool.importlinter.contracts]]
-name = "Jobs and Infrastructure code should not import from each other"
-type = "independence"
-modules = ["glueetl", "infrastructure"]
-
-[[tool.importlinter.contracts]]
-name = "Glue Job scripts should not use AWS CDK package"
-type = "forbidden"
-source_modules = ["glueetl"]
-forbidden_modules = ["aws_cdk"]
-
-[[tool.importlinter.contracts]]
-name = "Infrastructure code should follow layers architecture"
-type = "layers"
-layers = ["infrastructure.stacks", "infrastructure.constructs"]
-
-[tool.mypy]
-files = "**/*.py"
-python_version = "3.10"
-show_error_codes = true
-pretty = true
-strict = true
-ignore_missing_imports = true
-implicit_reexport = true
-explicit_package_bases = true
-
-[[tool.mypy.overrides]]
-module = "*.tests.*"
-disallow_incomplete_defs = false
-disallow_untyped_defs = false
-disallow_untyped_calls = false
-
 [tool.poetry]
 name = "glue-devtools"
 repository = "https://github.com/dashmug/glue-devtools"
@@ -69,12 +15,16 @@ license = "MIT"
 python = "^3.10,<3.11"
 pip = "^24.0"
 
-[tool.poetry.group.deploy.dependencies]
-aws-cdk-lib = "^2.133.0"
-cdk-nag = "^2.28.67"
-constructs = "^10.3.0"
-
-[tool.poetry.group.dev]
+# This "runtime" dependency group refers to dependencies that already
+# exist in AWS Glue's runtime. We don't need to install these in the
+# container.
+#
+# It is best to keep the dependencies here in sync with what's on Glue's
+# documentation.
+# https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html#glue-modules-provided
+[tool.poetry.group.runtime.dependencies]
+aws-glue-libs = { git = "https://github.com/awslabs/aws-glue-libs.git", rev = "master" }
+pyspark = "3.3.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest-randomly = "^3.15.0"
@@ -85,25 +35,10 @@ pytest = "^8.1.1"
 pre-commit = "^3.6.2"
 import-linter = "^2.0"
 ruff = "^0.3.3"
-# This "runtime" dependency group refers to dependencies that already
-# exist in AWS Glue's runtime. We don't need to install these in the
-# container.
-#
-# It is best to keep the dependencies here in sync with what's on Glue's
-# documentation.
-# https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html#glue-modules-provided
-nbstripout = "^0.7.1"
 
-[tool.poetry.group.runtime.dependencies]
-aws-glue-libs = {git = "https://github.com/awslabs/aws-glue-libs.git", rev = "master"}
-pyspark = "3.3.0"
-
-[tool.pytest.ini_options]
-addopts = ["--import-mode=importlib"]
-filterwarnings = [
-  "ignore::DeprecationWarning",
-  "ignore::FutureWarning:.*pyspark.*"
-]
+[tool.poetry.group.deploy.dependencies]
+aws-cdk-lib = "^2.133.0"
+cdk-nag = "^2.28.68"
 
 [tool.ruff]
 line-length = 88
@@ -127,7 +62,7 @@ ignore = [
   "FIX002",
   # Conflicts with ruff format
   "COM812",
-  "ISC001"
+  "ISC001",
 ]
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
@@ -137,3 +72,64 @@ max-complexity = 7
 
 [tool.ruff.lint.per-file-ignores]
 "**/test_*" = ["S101", "ANN", "PT", "PD"]
+
+[tool.mypy]
+files = "**/*.py"
+python_version = "3.10"
+show_error_codes = true
+pretty = true
+strict = true
+ignore_missing_imports = true
+implicit_reexport = true
+explicit_package_bases = true
+
+[[tool.mypy.overrides]]
+module = "*.tests.*"
+disallow_incomplete_defs = false
+disallow_untyped_defs = false
+disallow_untyped_calls = false
+
+[tool.pytest.ini_options]
+addopts = ["--import-mode=importlib"]
+filterwarnings = [
+  "ignore::DeprecationWarning",
+  "ignore::FutureWarning:.*pyspark.*",
+]
+
+[tool.coverage.run]
+omit = ["**/test_*.py"]
+
+[tool.coverage.report]
+skip_empty = true
+exclude_also = [
+  "def __repr__",
+  "if self.debug:",
+  "if settings.DEBUG",
+  "raise AssertionError",
+  "raise NotImplementedError",
+  "if 0:",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+  "class .*\\bProtocol\\):",
+  "@(abc\\.)?abstractmethod",
+]
+
+[tool.importlinter]
+root_packages = ["infrastructure", "glueetl"]
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "Jobs and Infrastructure code should not import from each other"
+type = "independence"
+modules = ["glueetl", "infrastructure"]
+
+[[tool.importlinter.contracts]]
+name = "Glue Job scripts should not use AWS CDK package"
+type = "forbidden"
+source_modules = ["glueetl"]
+forbidden_modules = ["aws_cdk"]
+
+[[tool.importlinter.contracts]]
+name = "Infrastructure code should follow layers architecture"
+type = "layers"
+layers = ["infrastructure.stacks", "infrastructure.constructs"]

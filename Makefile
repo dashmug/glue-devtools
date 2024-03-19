@@ -28,7 +28,7 @@ install: clean docker/.env ## Create virtualenv and install dependencies
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: `make install` is meant to be used outside the container." && false
 else
-	@poetry install
+	@poetry install --sync
 endif
 
 

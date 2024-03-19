@@ -69,11 +69,6 @@ repos:
         additional_dependencies:
           - "prettier"
           - "prettier-plugin-toml"
-  - repo: https://github.com/pappasam/toml-sort
-    rev: v0.23.1
-    hooks:
-      - id: toml-sort-fix
-        name: Sort TOML file entries
   - repo: https://github.com/mrtazz/checkmake
     rev: 0.2.2
     hooks:
