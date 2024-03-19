@@ -100,7 +100,7 @@ After installation, it will do an initial run to check all files.
 === Glue PySpark Dev Tools ===
 
 Available commands:
-help                 Show help (default)
+all                  Show help (default)
 install              Create virtualenv and install dependencies
 outdated             Check for outdated dependencies
 start                Rebuild and start the development container
@@ -116,6 +116,5 @@ deploy               Deploy the infrastructure and the application
 shell                Start a bash shell session inside the container
 clean-notebooks      Removes output cells from Jupyter notebooks
 pyspark              Start a Spark shell session
-audit                Audit dependencies for security issues
 clean                Delete generated artifacts
 ```

@@ -28,12 +28,6 @@ repos:
         language: system
         types: [python]
         entry: poetry run mypy
-      - id: import-linter
-        name: Check for violations of import rules
-        entry: poetry run lint-imports
-        language: system
-        types: [python]
-        pass_filenames: false
       - id: update-requirements
         name: Update requirements
         language: system
@@ -79,3 +73,8 @@ repos:
     hooks:
       - id: nbstripout
         name: Strip output from Jupyter notebooks
+  - repo: https://github.com/seddonym/import-linter
+    rev: v2.0
+    hooks:
+      - id: import-linter
+        name: Check for violations of import rules

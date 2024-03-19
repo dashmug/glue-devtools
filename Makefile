@@ -173,16 +173,6 @@ else
 endif
 
 
-.PHONY: audit
-audit: ## Audit dependencies for security issues
-ifeq ($(PLATFORM), docker)
-	@pip-audit --requirement requirements/requirements.container.txt
-else
-	@poetry check --lock
-	@poetry run pip-audit --requirement requirements/requirements.container.txt
-endif
-
-
 .PHONY: clean
 clean: ## Delete generated artifacts
 	@rm -rf cdk.out __pycache__ .coverage .mypy_cache .pytest_cache .ruff_cache htmlcov
