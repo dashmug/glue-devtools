@@ -6,7 +6,9 @@ build-backend = "poetry.core.masonry.api"
 name = "glue-devtools"
 repository = "https://github.com/dashmug/glue-devtools"
 version = "0.1.0"
-package-mode = false
+# Dependabot does not understand the `package-mode` setting.
+# We ignore it for now and use --no-root with poetry install.
+# package-mode = false
 description = "Glue Development Tools"
 authors = ["Noel Llevares <dashmug@gmail.com>"]
 license = "MIT"

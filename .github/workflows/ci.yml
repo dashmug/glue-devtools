@@ -31,7 +31,7 @@ jobs:
       - name: Install Python Dependencies
         run: |
           poetry check --lock
-          poetry install
+          poetry install --no-root
       - name: Lint Python code using ruff
         run: |
           poetry run ruff format . --check
@@ -73,6 +73,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.2
+      - name: Set up Docker cache
+        uses: ScribeMD/docker-cache@0.4.0
+        with:
+          key: docker-${{ runner.os }}-${{ hashFiles('Dockerfile') }}
       - name: Run the checks inside Docker
         uses: addnab/docker-run-action@v3
         with:
