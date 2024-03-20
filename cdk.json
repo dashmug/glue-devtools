@@ -1,5 +1,5 @@
 {
-  "app": "poetry run python3 -m infrastructure",
+  "app": "poetry run python3 -m deploy",
   "context": {
     "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
     "@aws-cdk/core:checkSecretUsage": true,

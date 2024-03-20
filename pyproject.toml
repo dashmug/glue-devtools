@@ -74,7 +74,7 @@ max-complexity = 7
 "**/test_*" = ["S101", "ANN", "PT", "PD"]
 
 [tool.mypy]
-files = "**/*.py"
+packages = "glueetl"
 python_version = "3.10"
 show_error_codes = true
 pretty = true
@@ -115,21 +115,21 @@ exclude_also = [
 ]
 
 [tool.importlinter]
-root_packages = ["infrastructure", "glueetl"]
+root_packages = ["deploy", "glueetl"]
 include_external_packages = true
 
 [[tool.importlinter.contracts]]
-name = "Jobs and Infrastructure code should not import from each other"
+name = "Jobs and deployment code should not import from each other"
 type = "independence"
-modules = ["glueetl", "infrastructure"]
+modules = ["glueetl", "deploy"]
 
 [[tool.importlinter.contracts]]
-name = "Glue Job scripts should not use AWS CDK package"
+name = "Glue Job scripts should not use AWS CDK"
 type = "forbidden"
 source_modules = ["glueetl"]
 forbidden_modules = ["aws_cdk"]
 
 [[tool.importlinter.contracts]]
-name = "Infrastructure code should follow layers architecture"
+name = "Deployment code should follow layers architecture"
 type = "layers"
-layers = ["infrastructure.stacks", "infrastructure.constructs"]
+layers = ["deploy.stacks", "deploy.constructs"]

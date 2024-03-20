@@ -5,7 +5,7 @@ from aws_cdk import aws_iam as iam
 from aws_cdk import aws_s3_assets as s3_assets
 from constructs import Construct
 
-from infrastructure.constructs.base import BaseStack
+from deploy.constructs.base import BaseStack
 
 
 class SampleStack(BaseStack):

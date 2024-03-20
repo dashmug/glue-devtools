@@ -138,7 +138,7 @@ endif
 
 
 .PHONY: deploy
-deploy: ## Deploy the infrastructure and the application
+deploy: ## Deploy the application including the necessary infrastructure
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: `make deploy` is meant to be used outside the container." && false
 else

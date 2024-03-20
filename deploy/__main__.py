@@ -9,7 +9,7 @@ from cdk_nag import (
     PCIDSS321Checks,
 )
 
-from infrastructure.stacks.sample import SampleStack
+from deploy.stacks.sample import SampleStack
 
 # Feel free to enable or disable the checks you want to run.
 # More information about the rules can be found here:

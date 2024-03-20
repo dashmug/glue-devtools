@@ -40,7 +40,7 @@ jobs:
         uses: actions/cache@v4.0.2
         with:
           path: .mypy_cache
-          key: ${{ runner.os }}-mypy-${{ hashFiles('**/*.py') }}
+          key: ${{ runner.os }}-mypy-${{ hashFiles('glueetl/**/*.py') }}
           restore-keys: ${{ runner.os }}-mypy-
       - name: Check type annotations using mypy
         run: poetry run mypy
@@ -67,9 +67,9 @@ jobs:
       - name: Install NodeJS Dependencies
         run: npm install -g aws-cdk
       - name: Synthesize CDK deployment package
-        run: poetry run cdk synth --strict
+        run: cdk synth --strict
   tests:
-    name: Run unit tests
+    name: Run tests in Glue container
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.2
