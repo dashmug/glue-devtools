@@ -22,11 +22,12 @@ jobs:
           python-version: "3.10.13"
       - name: Install Poetry Action
         uses: snok/install-poetry@v1.3.4
-      - name: Setup Virtualenv Cache
+      - name: Set up Virtualenv Cache
         uses: actions/cache@v4.0.1
         with:
           path: .venv
           key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+          restore-keys: ${{ runner.os }}-poetry-
       - name: Install Python Dependencies
         run: |
           poetry check --lock
@@ -35,10 +36,22 @@ jobs:
         run: |
           poetry run ruff format . --check
           poetry run ruff check .
+      - name: Set up mypy cache
+        uses: actions/cache@v4.0.1
+        with:
+          path: .mypy_cache
+          key: ${{ runner.os }}-mypy-${{ hashFiles('**/*.py') }}
+          restore-keys: ${{ runner.os }}-mypy-
       - name: Check type annotations using mypy
         run: poetry run mypy
       - name: Check if requirements are up-to-date
         run: poetry export --with=dev --output requirements/requirements.container.txt && git diff --exit-code
+      - name: Set up pre-commit cache
+        uses: actions/cache@v4.0.1
+        with:
+          path: ~/.cache/pre-commit
+          key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: ${{ runner.os }}-pre-commit-
       - name: Run pre-commit hooks
         run: |
           cp docker/.env.sample docker/.env
