@@ -1,4 +1,4 @@
-from typing import Any, cast
+from typing import Any
 
 from aws_cdk import aws_glue as glue
 from aws_cdk import aws_iam as iam
@@ -15,7 +15,7 @@ class SampleStack(BaseStack):
         role = iam.Role(
             self,
             "Role",
-            assumed_by=cast(iam.IPrincipal, iam.ServicePrincipal("glue.amazonaws.com")),
+            assumed_by=iam.ServicePrincipal("glue.amazonaws.com"),
             managed_policies=[
                 iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3FullAccess"),
                 iam.ManagedPolicy.from_aws_managed_policy_name(
