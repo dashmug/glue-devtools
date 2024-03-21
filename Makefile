@@ -1,8 +1,10 @@
 MAKEFLAGS += --no-print-directory
 
-COMPOSE_RUN = USER_ID=$$(id -u) docker compose -f docker/docker-compose.yml run --rm --remove-orphans --build glue
+DOCKER_COMPOSE = USER_ID=$$(id -u) docker compose -f docker/docker-compose.yml
 
-COMPOSE_EXEC = USER_ID=$$(id -u) docker compose -f docker/docker-compose.yml exec glue
+COMPOSE_RUN = $(DOCKER_COMPOSE) run --rm --remove-orphans --build glue
+
+COMPOSE_EXEC = $(DOCKER_COMPOSE) exec glue
 
 
 .PHONY: all
@@ -24,7 +26,7 @@ poetry.lock:
 
 
 .PHONY: install
-install: clean docker/.env ## Create virtualenv and install dependencies
+install: docker/.env ## Create virtualenv and install dependencies
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: `make install` is meant to be used outside the container." && false
 else
@@ -50,11 +52,11 @@ endif
 
 
 .PHONY: start
-start: docker/.env install requirements/requirements.container.txt ## Rebuild and start the development container
+start: install requirements/requirements.container.txt ## Rebuild and start the development container
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: `make start` is meant to be used outside the container." && false
 else
-	@USER_ID=$$(id -u) docker compose -f docker/docker-compose.yml up --build --remove-orphans
+	@$(DOCKER_COMPOSE) up --build --remove-orphans
 endif
 
 
@@ -176,3 +178,4 @@ endif
 .PHONY: clean
 clean: ## Delete generated artifacts
 	@rm -rf cdk.out __pycache__ .coverage .mypy_cache .pytest_cache .ruff_cache htmlcov
+	@poetry run pre-commit gc
