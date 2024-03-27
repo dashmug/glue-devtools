@@ -74,7 +74,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4.1.2
       - name: Set up Docker cache
-        uses: ScribeMD/docker-cache@0.4.0
+        uses: ScribeMD/docker-cache@0.5.0
         with:
           key: docker-${{ runner.os }}-${{ hashFiles('Dockerfile') }}
       - name: Run the checks inside Docker
