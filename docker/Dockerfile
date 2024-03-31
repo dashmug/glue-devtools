@@ -4,7 +4,7 @@ FROM amazon/aws-glue-libs:glue_libs_4.0.0_image_01
 # running in a container.
 ENV PLATFORM="docker"
 
-# Arguments for passing the host user:group to the container.
+# Arguments for passing the host user to the container.
 ARG USER_ID=1000
 
 # Switch to root to be able to make changes in the container filesystem.
@@ -22,10 +22,10 @@ USER glue_user
 
 # Copy requirements file that contains tooling.
 WORKDIR /home/glue_user/workspace
-COPY requirements/requirements.container.txt requirements/
+COPY docker/requirements.txt requirements.txt
 
 RUN pip3 install --no-cache-dir --no-warn-script-location --user --upgrade pip==24.0 \
   # Install dev requirements.
-  && pip3 install --no-cache-dir --no-warn-script-location --user -r requirements/requirements.container.txt  \
+  && pip3 install --no-cache-dir --no-warn-script-location --user -r requirements.txt  \
   # Prepare a /tmp directory needed by Spark to start.
   && mkdir -p /tmp/spark-events

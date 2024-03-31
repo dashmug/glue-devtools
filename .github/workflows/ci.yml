@@ -45,7 +45,7 @@ jobs:
       - name: Check type annotations using mypy
         run: poetry run mypy
       - name: Check if requirements are up-to-date
-        run: poetry export --with=dev --output requirements/requirements.container.txt && git diff --exit-code
+        run: poetry export --with=dev --output docker/requirements.txt && git diff --exit-code
       - name: Set up pre-commit cache
         uses: actions/cache@v4.0.2
         with:
@@ -73,10 +73,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.2
-      - name: Set up Docker cache
-        uses: ScribeMD/docker-cache@0.5.0
-        with:
-          key: docker-${{ runner.os }}-${{ hashFiles('Dockerfile') }}
       - name: Run the checks inside Docker
         uses: addnab/docker-run-action@v3
         with:
@@ -84,7 +80,7 @@ jobs:
           options: --volume ${{ github.workspace }}:/home/glue_user/workspace --env AWS_REGION=us-east-1
           run: |
             pip3 install --no-warn-script-location --user --upgrade pip==24.0
-            pip3 install --no-warn-script-location --user -r requirements/requirements.container.txt
+            pip3 install --no-warn-script-location --user -r docker/requirements.txt
             python3 -m pytest -p no:cacheprovider
   pip-audit:
     name: Audit requirements
@@ -94,7 +90,7 @@ jobs:
       - name: Audit requirements using pip-audit
         uses: pypa/gh-action-pip-audit@v1.0.8
         with:
-          inputs: requirements/requirements.container.txt
+          inputs: docker/requirements.txt
   shell:
     name: Shell
     runs-on: ubuntu-latest
@@ -102,8 +98,6 @@ jobs:
       - uses: actions/checkout@v4.1.2
       - name: Check shell scripts using shellcheck
         uses: ludeeus/action-shellcheck@2.0.0
-        with:
-          scandir: "."
   dockerfile:
     name: Dockerfile
     runs-on: ubuntu-latest
@@ -111,6 +105,8 @@ jobs:
       - uses: actions/checkout@v4.1.2
       - name: Validate Dockerfile using hadolint
         uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: docker/Dockerfile
   makefile:
     name: Makefile
     runs-on: ubuntu-latest

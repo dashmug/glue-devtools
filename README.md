@@ -76,8 +76,8 @@ defining your Glue script.
 
 ```shell
 $ poetry add {{library name}}
-# To update the requirements/requirements.container.txt file
-$ make requirements/requirements.container.txt
+# To update the docker/requirements.txt file
+$ make docker/requirements.txt
 # To rebuild the docker container for local testing purposes
 $ make start
 ```

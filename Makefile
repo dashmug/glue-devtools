@@ -43,16 +43,16 @@ else
 endif
 
 
-requirements/requirements.container.txt: poetry.lock
+docker/requirements.txt: poetry.lock
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: Please run the same command outside the container." && false
 else
-	@poetry export --with=dev --output requirements/requirements.container.txt
+	@poetry export --with=dev --output docker/requirements.txt
 endif
 
 
 .PHONY: start
-start: install requirements/requirements.container.txt ## Rebuild and start the development container
+start: install docker/requirements.txt ## Rebuild and start the development container
 ifeq ($(PLATFORM), docker)
 	@echo "ERROR: `make start` is meant to be used outside the container." && false
 else
@@ -93,7 +93,7 @@ endif
 
 
 .PHONY: test
-test: requirements/requirements.container.txt ## Run automated tests
+test: docker/requirements.txt ## Run automated tests
 ifeq ($(PLATFORM), docker)
 	@python3 -m pytest
 else
@@ -102,7 +102,7 @@ endif
 
 
 .PHONY: coverage
-coverage: requirements/requirements.container.txt ## Generate test coverage HTML report
+coverage: docker/requirements.txt ## Generate test coverage HTML report
 ifeq ($(PLATFORM), docker)
 	@python3 -m pytest --cov=glueetl --cov-branch --cov-report=term
 	@python3 -m coverage html

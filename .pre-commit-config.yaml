@@ -24,10 +24,10 @@ repos:
         types: [python]
         entry: poetry run ruff format
       - id: update-requirements
-        name: Update requirements
+        name: Update requirements.txt
         language: system
         files: poetry.lock
-        entry: poetry export --with=dev --output requirements/requirements.container.txt
+        entry: poetry export --with=dev --output docker/requirements.txt
         pass_filenames: false
   - repo: https://github.com/hadolint/hadolint
     rev: v2.12.1-beta
