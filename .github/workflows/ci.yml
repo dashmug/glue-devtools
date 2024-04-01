@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python 3.10
         uses: actions/setup-python@v5.1.0
         with:
-          python-version: "3.10.13"
+          python-version: "3.10"
       - name: Install Poetry Action
         uses: snok/install-poetry@v1.3.4
       - name: Set up Virtualenv Cache
@@ -59,7 +59,7 @@ jobs:
         env:
           # Skip redundant hooks that are already covered elsewhere in
           # this Github workflow
-          SKIP: lint-python,format-python,typecheck-python,update-requirements,hadolint-docker,shellcheck,checkmake
+          SKIP: poetry-check,poetry-lock,poetry-install,lint-python,format-python,typecheck-python,update-requirements,hadolint-docker,shellcheck,checkmake
       - name: Set up NodeJS
         uses: actions/setup-node@v4.0.2
         with:

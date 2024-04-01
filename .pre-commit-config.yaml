@@ -12,6 +12,25 @@ repos:
       - id: trailing-whitespace
   - repo: local
     hooks:
+      - id: poetry-check
+        name: Validate poetry config
+        entry: poetry check
+        language: python
+        pass_filenames: false
+        files: ^(.*/)?pyproject\.toml$
+      - id: poetry-lock
+        name: Update poetry lock file
+        entry: poetry lock
+        language: python
+        pass_filenames: false
+        files: ^(.*/)?(poetry\.lock|pyproject\.toml)$
+      - id: poetry-install
+        name: Install dependencies from the poetry lock file
+        entry: poetry install --sync
+        language: python
+        pass_filenames: false
+        stages: [post-checkout, post-merge]
+        always_run: true
       - id: lint-python
         name: Lint Python code
         language: system

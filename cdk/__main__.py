@@ -9,23 +9,23 @@ from cdk_nag import (
     PCIDSS321Checks,
 )
 
-from deploy.stacks.sample import SampleStack
+from cdk.stacks.sample import SampleStack
 
 # Feel free to enable or disable the checks you want to run.
 # More information about the rules can be found here:
 # https://github.com/cdklabs/cdk-nag/blob/main/RULES.md
-NAG_PACKS: list[type[NagPack]] = [
+NAG_PACKS: list[NagPack] = [
     # Best practices based on AWS Solutions Security Matrix
-    AwsSolutionsChecks,
+    AwsSolutionsChecks(verbose=True),
     # HIPAA Security AWS operational best practices
     # https://docs.aws.amazon.com/config/latest/developerguide/operational-best-practices-for-hipaa_security.html
-    HIPAASecurityChecks,
+    HIPAASecurityChecks(verbose=True),
     # PCI DSS 3.2.1 AWS operational best practices
     # https://docs.aws.amazon.com/config/latest/developerguide/operational-best-practices-for-pci-dss.html
-    PCIDSS321Checks,
+    PCIDSS321Checks(verbose=True),
     # NIST 800-53 rev 5 AWS operational best practices
     # https://docs.aws.amazon.com/config/latest/developerguide/operational-best-practices-for-nist-800-53_rev_5.html
-    NIST80053R5Checks,
+    NIST80053R5Checks(verbose=True),
 ]
 
 # These tags will be added to all resources.
@@ -42,8 +42,8 @@ if __name__ == "__main__":
     SampleStack(app, "SampleStack")
 
     if os.getenv("CDK_NAG"):
-        for cls in NAG_PACKS:
-            cdk.Aspects.of(app).add(cls(verbose=True))
+        for check in NAG_PACKS:
+            cdk.Aspects.of(app).add(check)
 
     for key, value in TAGS.items():
         cdk.Tags.of(app).add(key, value)
