@@ -15,7 +15,7 @@ jobs:
     name: Python
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v4.1.4
       - name: Set up Python 3.10
         uses: actions/setup-python@v5.1.0
         with:
@@ -72,7 +72,7 @@ jobs:
     name: Run tests in Glue container
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v4.1.4
       - name: Run the checks inside Docker
         uses: addnab/docker-run-action@v3
         with:
@@ -86,7 +86,7 @@ jobs:
     name: Audit requirements
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v4.1.4
       - name: Audit requirements using pip-audit
         uses: pypa/gh-action-pip-audit@v1.0.8
         with:
@@ -95,14 +95,14 @@ jobs:
     name: Shell
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v4.1.4
       - name: Check shell scripts using shellcheck
         uses: ludeeus/action-shellcheck@2.0.0
   dockerfile:
     name: Dockerfile
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v4.1.4
       - name: Validate Dockerfile using hadolint
         uses: hadolint/hadolint-action@v3.1.0
         with:
@@ -111,6 +111,6 @@ jobs:
     name: Makefile
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v4.1.4
       - name: Check Makefile using checkmake
         uses: Uno-Takashi/checkmake-action@v2
