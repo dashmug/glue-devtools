@@ -129,13 +129,13 @@ ujson = ["ujson (>=5.7.0)"]
 
 [[package]]
 name = "cdk-nag"
-version = "2.28.89"
+version = "2.28.100"
 description = "Check CDK v2 applications for best practices using a combination on available rule packs."
 optional = false
 python-versions = "~=3.8"
 files = [
-    {file = "cdk-nag-2.28.89.tar.gz", hash = "sha256:7d77c2407be3975c533503d7b0164976ac9faa4e9bb9c1740705799e601af29e"},
-    {file = "cdk_nag-2.28.89-py3-none-any.whl", hash = "sha256:2ea6c0bdef6c0b33e65bd9608a9cc2760722b449fbce152969892b67b0dbf89b"},
+    {file = "cdk-nag-2.28.100.tar.gz", hash = "sha256:24e534126f69a8d2b1459b2913e60d81ab89779d95f759a4ea71a130f5d44150"},
+    {file = "cdk_nag-2.28.100-py3-none-any.whl", hash = "sha256:b69a04a34aac3fb047436693689afd988e1721d61cf688f56eab1be8560fe9c1"},
 ]
 
 [package.dependencies]
@@ -775,4 +775,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10,<3.11"
-content-hash = "f71b873c34167d0c71c124c0ea45976d1e7b87df9d68612e6571ba62fe0ce635"
+content-hash = "17466ac9c27c633db7181d8248be8e321a35e761b1adfaedef3590622460a071"
