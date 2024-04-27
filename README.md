@@ -97,7 +97,7 @@ After installation, it will do an initial run to check all files.
 ## List of Makefile commands
 
 ```
-=== Glue PySpark Dev Tools ===
+=== Glue Dev Tools ===
 
 Available commands:
 all                  Show help (default)
@@ -109,10 +109,10 @@ lint                 Check source code for common errors
 typecheck            Check type annotations
 test                 Run automated tests
 coverage             Generate test coverage HTML report
-githooks             Install project git hooks
+githooks             Install/update project git hooks
 synth                Synthesizes and prints the CloudFormation template
 diff                 Compares the specified stack with the deployed stack
-deploy               Deploy the infrastructure and the application
+deploy               Deploy the application including the necessary infrastructure
 shell                Start a bash shell session inside the container
 clean-notebooks      Removes output cells from Jupyter notebooks
 pyspark              Start a Spark shell session

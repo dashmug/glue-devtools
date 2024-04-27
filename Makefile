@@ -9,7 +9,7 @@ COMPOSE_EXEC = $(DOCKER_COMPOSE) exec glue
 
 .PHONY: all
 all: ## Show help (default)
-	@echo "=== Glue PySpark Dev Tools ==="
+	@echo "=== Glue Dev Tools ==="
 	@echo
 	@echo "Available commands:"
 	@grep --extended-regexp '^[ /.a-zA-Z0-9_-]+:.*?## .*$$' Makefile | \
@@ -116,8 +116,9 @@ checks: format typecheck
 
 
 .PHONY: githooks
-githooks: ## Install project git hooks
+githooks: ## Install/update project git hooks
 	@poetry run pre-commit install --install-hooks
+	@poetry run pre-commit autoupdate
 	@poetry run pre-commit run --all-files
 
 
