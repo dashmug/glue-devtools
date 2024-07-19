@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   glue:
     container_name: glue-devtools
@@ -19,7 +17,8 @@ services:
       - AWS_SECRET_ACCESS_KEY
       - AWS_SESSION_TOKEN
     env_file:
-      - .env
+      - path: .env
+        required: false
     ports:
       - "4040:4040"
       - "18080:18080"

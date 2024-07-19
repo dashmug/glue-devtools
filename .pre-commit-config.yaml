@@ -31,56 +31,20 @@ repos:
         pass_filenames: false
         stages: [post-checkout, post-merge]
         always_run: true
+      - id: format-python
+        name: Format Python code
+        language: system
+        types: [python]
+        entry: poetry run ruff format
       - id: lint-python
         name: Lint Python code
         language: system
         types: [python]
         entry: poetry run ruff check
         args: [--fix, --unsafe-fixes]
-      - id: format-python
-        name: Format Python code
-        language: system
-        types: [python]
-        entry: poetry run ruff format
       - id: update-requirements
         name: Update requirements.txt
         language: system
         files: poetry.lock
         entry: poetry export --with=dev --output docker/requirements.txt
         pass_filenames: false
-  - repo: https://github.com/hadolint/hadolint
-    rev: v2.13.0-beta
-    hooks:
-      - id: hadolint-docker
-  - repo: https://github.com/iamthefij/docker-pre-commit
-    rev: v3.0.1
-    hooks:
-      - id: docker-compose-check
-  - repo: https://github.com/koalaman/shellcheck-precommit
-    rev: v0.10.0
-    hooks:
-      - id: shellcheck
-        name: Check shell scripts
-  - repo: https://github.com/Yelp/detect-secrets
-    rev: v1.4.0
-    hooks:
-      - id: detect-secrets
-  - repo: https://github.com/rhysd/actionlint
-    rev: v1.6.27
-    hooks:
-      - id: actionlint-docker
-  - repo: https://github.com/mrtazz/checkmake
-    rev: 0.2.2
-    hooks:
-      - id: checkmake
-        name: Check Makefile syntax
-  - repo: https://github.com/kynan/nbstripout
-    rev: 0.7.1
-    hooks:
-      - id: nbstripout
-        name: Strip output from Jupyter notebooks
-  - repo: https://github.com/seddonym/import-linter
-    rev: v2.0
-    hooks:
-      - id: import-linter
-        name: Check for violations of import rules

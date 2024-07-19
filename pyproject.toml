@@ -15,7 +15,6 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.10,<3.11"
-pip = "^24.0"
 
 # This "runtime" dependency group refers to dependencies that already
 # exist in AWS Glue's runtime. We don't need to install these in the
@@ -31,14 +30,16 @@ pyspark = "3.3.0"
 [tool.poetry.group.dev.dependencies]
 pytest-randomly = "^3.15.0"
 pytest-cov = "^5.0.0"
-pytest = "^8.1.1"
-pre-commit = "^3.7.0"
-mypy = "^1.10.0"
-ruff = "^0.4.2"
+pre-commit = "^3.7.1"
+import-linter = "^2.0"
+ruff = "^0.5.4"
+mypy = "^1.11.0"
+pytest = "^8.3.1"
+
 
 [tool.poetry.group.deploy.dependencies]
-cdk-nag = "^2.28.100"
-aws-cdk-lib = "^2.139.0"
+aws-cdk-lib = "^2.149.0"
+cdk-nag = "^2.28.163"
 
 [tool.ruff]
 line-length = 88

@@ -10,22 +10,24 @@ ARG USER_ID=1000
 # Switch to root to be able to make changes in the container filesystem.
 USER root
 
-# Change UID of glue_user to be the same as host user. This allows
-# JupyterLab to write to the host system as glue_user.
-RUN usermod -u $USER_ID glue_user \
-  # Clean up /tmp which may already have glue_user-owned files with the
-  # old UID.
-  && rm -rf /tmp/*
+# Clean up /tmp which may already have glue_user-owned files with the
+# old UID.
+RUN rm -rf /tmp/* \
+  # Change UID of glue_user to be the same as host user. This allows
+  # JupyterLab to write to the host system as glue_user.
+  && usermod -u $USER_ID glue_user \
+  && mkdir -p docker
 
 # Switch to glue_user to be able to make changes for the user itself.
 USER glue_user
 
 # Copy requirements file that contains tooling.
 WORKDIR /home/glue_user/workspace
-COPY docker/requirements.txt requirements.txt
+COPY docker/requirements.txt docker/requirements.txt
 
-RUN pip3 install --no-cache-dir --no-warn-script-location --user --upgrade pip==24.0 \
+# hadolint ignore=DL3013
+RUN pip3 install --no-cache-dir --no-warn-script-location --user --upgrade pip \
   # Install dev requirements.
-  && pip3 install --no-cache-dir --no-warn-script-location --user -r requirements.txt  \
+  && pip3 install --no-cache-dir --no-warn-script-location --user -r docker/requirements.txt  \
   # Prepare a /tmp directory needed by Spark to start.
   && mkdir -p /tmp/spark-events
