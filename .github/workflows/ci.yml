@@ -36,7 +36,7 @@ jobs:
       - name: Check if requirements.txt is in sync with poetry.lock
         run: poetry export --with=dev --output docker/requirements.txt && git diff --exit-code
       - name: Set up NodeJS
-        uses: actions/setup-node@v4.0.2
+        uses: actions/setup-node@v4.0.3
         with:
           node-version: "20"
       - name: Synthesize CDK deployment package
